@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10141d">
+<title>Abnehm-Coach Pro v1.3</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{color-scheme:dark;--bg:#0d1118;--panel:#171e29;--panel2:#202a38;--text:#f4f7fb;--muted:#9eacbd;--line:#2a3545;--green:#78d6a0;--blue:#83b9ff;--orange:#ffc477;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#111927,#0d1118 36%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:86px}
+header{padding:22px 18px 12px;position:sticky;top:0;background:#101722ed;backdrop-filter:blur(12px);z-index:3;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;color:var(--green);font-weight:800;letter-spacing:.14em;text-transform:uppercase}.headrow{display:flex;align-items:center;justify-content:space-between;gap:10px}h1{font-size:25px;margin:5px 0 0}.date{font-size:12px;color:var(--muted)}
+main{max-width:720px;margin:auto;padding:14px 14px 30px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:linear-gradient(145deg,var(--panel),#141b25);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:11px;min-width:0}.wide{grid-column:1/-1}.label{font-size:12px;color:var(--muted)}.value{font-size:27px;font-weight:750;margin:4px 0}.sub{font-size:12px;color:var(--muted)}.bar{height:8px;background:#2a3545;border-radius:99px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;background:var(--green);border-radius:99px;width:0}
+h2{font-size:17px;margin:4px 0 12px}.section{margin-top:19px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.macro{margin:10px 0}.macroline{display:flex;justify-content:space-between;font-size:13px}.macro .bar span{background:var(--blue)}
+button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--green);color:#102018;font-weight:750;font-size:14px;cursor:pointer}button.secondary,.button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#46262b;color:#ffd7d7}.actions{display:flex;flex-wrap:wrap;gap:8px}.tabs{position:fixed;bottom:0;left:0;right:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);background:#111923f5;border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}.tabs button{background:transparent;color:var(--muted);padding:8px 3px;font-size:11px}.tabs button.active{color:var(--green)}.tabs span{display:block;font-size:19px;margin-bottom:3px}
+.panel{display:none}.panel.active{display:block}input,select,textarea{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#0f1620;color:var(--text);font:inherit;margin:5px 0 12px}label{font-size:12px;color:var(--muted)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.entry{border-top:1px solid var(--line);padding:11px 0}.entry:first-child{border-top:0}.entry strong{display:block}.entry small{color:var(--muted)}.pill{font-size:11px;color:var(--green);background:#173326;padding:4px 8px;border-radius:99px}.hint{font-size:12px;color:var(--muted);line-height:1.5}.empty{color:var(--muted);padding:12px 0;font-size:13px}.notice{border:1px solid #66512e;background:#302719;color:#ffe0ad;border-radius:12px;padding:12px;font-size:12px;line-height:1.45}
+.history-controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.history-controls button{padding:9px 12px}.history-controls button.selected{background:var(--green);color:#102018}.day-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day-chip{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:left;color:var(--text)}.day-chip.selected{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}.day-chip strong,.day-chip small{display:block}.day-chip small{color:var(--muted);margin-top:3px;font-size:11px}.chart-row{display:grid;grid-template-columns:74px 1fr 64px;gap:8px;align-items:center;margin:10px 0;font-size:12px}.balance-track{height:20px;position:relative;background:linear-gradient(to right,transparent 49.6%,#dce5ef 49.6%,#dce5ef 50.4%,transparent 50.4%);border-radius:4px}.balance-fill{position:absolute;top:3px;height:14px;border-radius:4px;min-width:2px}.balance-fill.negative{right:50%;background:#78d6a0}.balance-fill.positive{left:50%;background:#ffc477}.pair-chart{display:flex;align-items:flex-end;gap:3px;height:120px;padding:8px 2px 0;border-bottom:1px solid var(--line);overflow-x:auto}.pair-col{flex:1;min-width:25px;display:flex;align-items:flex-end;justify-content:center;gap:3px;height:100%;position:relative}.pair-bar{width:9px;min-height:2px;border-radius:4px 4px 0 0}.pair-bar.in{background:var(--blue)}.pair-bar.out{background:var(--orange)}.pair-labels{display:flex;justify-content:space-around;color:var(--muted);font-size:10px;margin-top:5px}.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:11px}.legend span:before{content:'';display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:var(--blue)}.legend .out:before{background:var(--orange)}.detail-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.detail-kpi{background:var(--panel2);border-radius:11px;padding:10px}.detail-kpi b{display:block;font-size:19px;margin-top:3px}.weight-chart{width:100%;height:auto;display:block;overflow:visible}.weight-grid{stroke:var(--line);stroke-width:1}.weight-line{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.weight-dot{fill:var(--green);stroke:#102018;stroke-width:2}.weight-axis{fill:var(--muted);font-size:10px}.week-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.week-stat{background:var(--panel2);border-radius:11px;padding:10px}.week-stat span{display:block;color:var(--muted);font-size:11px}.week-stat b{display:block;font-size:18px;margin-top:3px}.week-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+.pair-bar.out-stack{background:none;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}.pair-bar.out-stack .burn-active{width:100%;background:#d98a3b;flex-shrink:0}.pair-bar.out-stack .burn-base{width:100%;background:#ffc477;flex-shrink:0}.legend{display:flex;gap:14px;flex-wrap:wrap}.legend span{display:inline-flex;align-items:center;gap:6px}.legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px}.intake-dot{background:var(--blue)}.base-dot{background:#ffc477}.active-dot{background:#d98a3b}
+.dashboard-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 4px 16px}.dashboard-heading h1{font-size:25px;line-height:1.15;margin:4px 0}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green);font-weight:800}.dashboard-kpis .kpi-primary{border-color:var(--green)}.kpi-foot{font-size:11px;color:var(--muted);margin-top:7px}.dashboard-trends{margin-top:12px}.trend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.trend-tile{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px;min-width:0}.trend-tile span,.trend-tile small{display:block;color:var(--muted);font-size:11px;line-height:1.35}.trend-tile b{display:block;font-size:17px;margin:7px 0;overflow-wrap:anywhere}.trend-tile small{font-size:10px}.meal-group{border:1px solid var(--line);background:var(--panel2);border-radius:12px;margin:8px 0;overflow:hidden}.meal-group summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;cursor:pointer;font-weight:700}.meal-group summary::-webkit-details-marker{display:none}.meal-group summary:after{content:"＋";color:var(--muted);font-size:16px}.meal-group[open] summary:after{content:"−"}.meal-group-content{padding:0 10px 10px}.meal-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:7px}.meal-card .row{align-items:flex-start}.meal-card small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:5px}.quality-badge{display:inline-block;border-radius:6px;padding:2px 6px;font-size:10px;font-weight:700;margin:3px 3px 0 0}.quality-estimated{background:#3b3020;color:#ffd08a;border:1px solid #76582c}.quality-missing{background:#352b2b;color:#ffb0a6;border:1px solid #70413c}.quality-measured{background:#20372e;color:#9ce0b7;border:1px solid #376c50}.quality-line{margin-top:4px}@media(max-width:390px){.trend-grid{grid-template-columns:1fr}.dashboard-heading h1{font-size:22px}}
+
+/* v0.8.1: mobile dashboard cleanup */
+.dashboard-meta{display:flex;justify-content:flex-end;margin:0 2px 8px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.dashboard-kpis .card{min-width:0;overflow:hidden;padding:13px}
+.dashboard-kpis .label{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+.dashboard-kpis .value{font-size:clamp(21px,6vw,27px);overflow-wrap:anywhere}
+.dashboard-kpis .sub,.dashboard-kpis .kpi-foot{font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+.dashboard-trends{margin-top:2px}
+.macro-dashboard{margin-top:0}
+@media(max-width:430px){
+ main{padding:10px 10px 28px}
+ .grid.dashboard-kpis{gap:8px}
+ .dashboard-kpis .card{padding:11px;border-radius:15px}
+ .trend-grid{grid-template-columns:1fr;gap:7px}
+ .trend-tile{padding:9px 11px}
+ .trend-tile b{font-size:16px;margin:4px 0}
+ .trend-tile small{font-size:10px}
+}
+
+
+/* v1.3: klarere Smartphone-Ansicht, aufklappbare Mahlzeiten und Datenqualität */
+.dashboard-kpis .card{min-width:0;padding:13px;overflow:hidden}
+.dashboard-kpis .label{font-size:12px;line-height:1.25}
+.dashboard-kpis .value{font-size:clamp(21px,6vw,28px);overflow-wrap:anywhere}
+.dashboard-kpis .sub,.dashboard-kpis .kpi-foot{font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+.dashboard-kpis .kpi-primary{border-color:var(--green)}
+.dashboard-kpis .protein-kpi{border-color:var(--blue)}
+.dashboard-kpis .protein-kpi .bar span{background:var(--blue)}
+.macro-dashboard,.dashboard-trends{margin-top:0}
+.trend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.trend-tile{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px;min-width:0}
+.trend-tile span,.trend-tile small{display:block;color:var(--muted);font-size:11px;line-height:1.35}
+.trend-tile b{display:block;font-size:17px;margin:7px 0;overflow-wrap:anywhere}
+.trend-tile small{font-size:10px}
+.meal-group{border:1px solid var(--line);background:var(--panel2);border-radius:13px;margin:9px 0;overflow:hidden}
+.meal-group summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px;cursor:pointer;font-weight:700}
+.meal-group summary::-webkit-details-marker{display:none}
+.meal-group summary:after{content:"＋";color:var(--muted);font-size:17px}
+.meal-group[open] summary:after{content:"−"}
+.meal-group-content{padding:0 10px 10px}
+.meal-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px;margin-top:8px}
+.meal-card .row{align-items:flex-start}
+.meal-card .meal-title{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.meal-card small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:5px}
+.meal-time{font-size:10px;color:var(--muted);white-space:nowrap}
+.quality-badge{display:inline-block;border-radius:6px;padding:2px 6px;font-size:10px;font-weight:700;margin:3px 3px 0 0}
+.quality-estimated{background:#3b3020;color:#ffd08a;border:1px solid #76582c}
+.quality-missing{background:#352b2b;color:#ffb0a6;border:1px solid #70413c}
+.quality-measured{background:#20372e;color:#9ce0b7;border:1px solid #376c50}
+.quality-line{margin-top:4px}
+.data-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.4}
+.week-compare{border-top:1px solid var(--line);margin-top:12px;padding-top:10px;font-size:12px;color:var(--muted);line-height:1.5}
+.version-tag{font-size:10px;opacity:.65;letter-spacing:.8px;margin-left:5px}
+@media(max-width:430px){
+ .dashboard-kpis{gap:8px}
+ .dashboard-kpis .card{padding:11px;border-radius:15px}
+ .trend-grid{grid-template-columns:1fr;gap:7px}
+ .trend-tile{padding:9px 11px}
+ .trend-tile b{font-size:16px;margin:4px 0}
+ .trend-tile small{font-size:10px}
+ .weight-change-grid{grid-template-columns:1fr 1fr}
+}
+
+
+/* v1.3 requested refinements */
+.day-select-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.day-select-row>div{display:flex;flex-direction:column;gap:4px}
+.dashboard-date-label{font-size:12px;color:var(--muted)}
+.day-picker-label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:4px;min-width:130px}
+.day-picker-label input{font-size:13px;padding:7px 8px}
+.goal-mark{position:relative;overflow:visible}
+.goal-mark:after{content:"";position:absolute;z-index:2;top:-3px;bottom:-3px;right:0;width:2px;border-radius:2px;background:var(--text);opacity:.9;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.bar.status-ok span{background:#35bd79}
+.bar.status-over span{background:#e45b5b}
+.bar.status-progress span{background:#e45b5b}
+.bar.status-complete span{background:#35bd79}
+.day-picker-label input,.date-field input{width:100%}
+@media(max-width:390px){.day-select-row{align-items:flex-start}.day-picker-label{min-width:120px}}
+
+
+/* v1.3: Monatskalender und korrekt gestapelte Verbrauchsbalken */
+.pair-col{position:relative}
+.out-stack{position:relative;display:block;flex:0 0 9px;height:100%!important;min-height:0;background:none;overflow:hidden}
+.out-stack .burn-base,.out-stack .burn-active{position:absolute;left:0;width:100%;display:block;flex:none}
+.out-stack .burn-base{bottom:0}
+.out-stack .burn-active{z-index:1}
+.calendar-heading{align-items:center;gap:8px}
+.calendar-nav{display:flex;align-items:center;gap:8px}
+.calendar-nav strong{font-size:13px;white-space:nowrap}
+.calendar-nav button{padding:5px 11px;min-width:34px}
+.calendar-legend{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;color:var(--muted);font-size:11px}
+.calendar-legend span{display:flex;align-items:center;gap:5px}
+.calendar-dot{display:inline-block;width:9px;height:9px;border-radius:50%}
+.calendar-dot.deficit{background:#35bd79}.calendar-dot.surplus{background:#e45b5b}.calendar-dot.no-data{background:#667080}
+.month-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.month-weekday{text-align:center;color:var(--muted);font-size:11px;padding:4px 0}
+.month-day{min-width:0;min-height:54px;padding:5px 2px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px}
+.month-day .day-number{font-size:12px;font-weight:700}
+.month-day .day-balance{font-size:10px;font-weight:700;line-height:1.15;white-space:nowrap}
+.month-day.deficit{border-color:rgba(53,189,121,.55);background:rgba(53,189,121,.10)}
+.month-day.deficit .day-balance{color:#35bd79}
+.month-day.surplus{border-color:rgba(228,91,91,.55);background:rgba(228,91,91,.10)}
+.month-day.surplus .day-balance{color:#e45b5b}
+.month-day.no-data{opacity:.52}
+.month-day.unknown{border-style:dashed}
+.month-day.today{outline:2px solid var(--accent);outline-offset:1px}
+.month-day.selected{box-shadow:inset 0 0 0 2px var(--accent)}
+.month-day:disabled{cursor:default;opacity:.22}
+.month-calendar-summary{margin-top:10px}
+@media(max-width:370px){.month-calendar{gap:3px}.month-day{min-height:48px}.month-day .day-balance{font-size:9px}}
+
+
+/* v1.3 chart layout repair */
+.intake-burn-card .legend{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin:8px 0 12px}
+.intake-burn-card #intakeBurnChart{display:block;width:100%;min-height:150px;position:relative;margin:0;padding:0}
+.intake-burn-card .pair-chart{display:flex;align-items:flex-end;justify-content:space-around;gap:5px;height:145px;min-height:145px;width:100%;box-sizing:border-box;padding:8px 4px 0;margin:0;border-bottom:1px solid var(--line);overflow-x:auto;overflow-y:hidden}
+.intake-burn-card .pair-col{height:100%;min-height:0;flex:1 0 25px;display:flex;align-items:flex-end;justify-content:center;gap:4px;position:relative}
+.intake-burn-card .pair-bar{width:10px;min-height:0;flex:0 0 10px;border-radius:5px 5px 0 0;display:block}
+.intake-burn-card .pair-bar.in{background:#82b7ff}
+.intake-burn-card .out-stack{position:relative;display:block;overflow:hidden;background:none;height:100%;min-height:0}
+.intake-burn-card .out-stack .burn-base,.intake-burn-card .out-stack .burn-active{position:absolute;left:0;width:100%;display:block;min-height:0}
+.intake-burn-card .out-stack .burn-base{bottom:0;background:#ffc477}
+.intake-burn-card .out-stack .burn-active{z-index:1;background:#d98a3b}
+.intake-burn-card .pair-labels{display:flex;justify-content:space-around;gap:5px;width:100%;margin:7px 0 0;color:var(--muted);font-size:10px}
+.intake-burn-card .pair-labels span{flex:1;min-width:25px;text-align:center;white-space:nowrap}
+.intake-burn-card>.hint{margin-top:12px}
+
+
+/* v1.3 Dropbox import status */
+#dropboxCard input{width:100%;margin:5px 0 10px}
+#dropboxCodePanel{padding:12px;margin:10px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+#dropboxStatusPill.connected{background:rgba(53,189,121,.16);color:#35bd79}
+#dropboxStatusPill.pending{background:rgba(255,196,119,.16);color:#e9ae61}
+#dropboxStatusPill.error{background:rgba(228,91,91,.16);color:#e45b5b}
+
+</style>
+</head>
+<body>
+<header><div class="headrow"><div><div class="brand">Abnehm-Coach Pro <span class="version-tag">v1.3</span></div><h1 id="greeting">Dein Tagesüberblick</h1></div><div class="date" id="today"></div></div></header>
+<main>
+<section id="dashboard" class="panel active">
+ <div class="dashboard-meta day-select-row"><div><span class="pill" id="entryCount">0 Einträge</span><span id="dashboardDate" class="dashboard-date-label"></span></div><label class="day-picker-label">Tag auswählen<input id="dashboardDay" type="date" onchange="selectDay(this.value)" aria-label="Tag für Tagesübersicht auswählen"></label></div>
+ <div class="grid dashboard-kpis">
+  <div class="card kpi-primary"><div class="label">Kalorien</div><div class="value" id="kcalIn">0</div><div class="sub" id="kcalGoalText">von 1.840 kcal</div><div class="bar goal-mark" id="kcalGoalBar"><span id="kcalBar"></span></div><div class="kpi-foot" id="kcalRemaining">Noch 1.840 kcal bis zum Ziel</div></div>
+  <div class="card protein-kpi"><div class="label">Eiweiß</div><div class="value" id="proteinIn">0 g</div><div class="sub" id="proteinGoalText">von 170 g</div><div class="bar goal-mark" id="proteinKpiGoalBar"><span id="proteinKpiBar"></span></div><div class="kpi-foot" id="proteinRemaining">Noch 170 g bis zum Ziel</div></div>
+  <div class="card"><div class="label">Kalorienbilanz</div><div class="value" id="balance">—</div><div class="sub">Aufnahme minus Verbrauch</div><div class="kpi-foot" id="balanceNote">Basisverbrauch plus Aktivität</div></div>
+  <div class="card"><div class="label">Gewicht zuletzt</div><div class="value" id="weightNow">—</div><div class="sub" id="weightGoalText">Ziel: 90 kg</div><div class="kpi-foot" id="weightLastDate">Letzte Messung</div></div>
+ </div>
+ <div class="card macro-dashboard"><div class="row"><h2>Makronährstoffe</h2><span class="sub">Tagesziele</span></div>
+  <div class="macro"><div class="macroline"><span>Eiweiß</span><b id="proteinText">0 / 170 g</b></div><div class="bar goal-mark" id="proteinMacroGoalBar"><span id="proteinBar"></span></div></div>
+  <div class="macro"><div class="macroline"><span>Kohlenhydrate</span><b id="carbsText">0 / 154 g</b></div><div class="bar goal-mark" id="carbsGoalBar"><span id="carbsBar"></span></div></div>
+  <div class="macro"><div class="macroline"><span>Fett</span><b id="fatText">0 / 65 g</b></div><div class="bar goal-mark"><span id="fatBar"></span></div></div>
+  <div class="macro"><div class="macroline"><span>Zucker</span><b id="sugarText">— / 50 g</b></div><div class="bar goal-mark" id="sugarGoalBar"><span id="sugarBar"></span></div><small class="hint">Zuckerziel als einstellbarer Richtwert</small></div>
+ </div>
+ <div class="card dashboard-trends"><div class="row"><h2>Deine Entwicklung</h2><button class="secondary" onclick="showTab('history',document.querySelector('[data-tab=history]'))">Zum Verlauf →</button></div>
+  <div class="trend-grid">
+   <div class="trend-tile"><span>Ø Kalorienbilanz · 7 erfasste Tage</span><b id="dashWeekBalance">—</b><small id="dashWeekCompare">Vorwochenvergleich</small></div>
+   <div class="trend-tile"><span>Gewichtsveränderung · 7 Tage</span><b id="dashWeight7">—</b><small id="dashWeight7Note">Noch nicht genügend Messwerte</small></div>
+   <div class="trend-tile"><span>Gewichtsveränderung · 30 Tage</span><b id="dashWeight30">—</b><small id="dashWeight30Note">Noch nicht genügend Messwerte</small></div>
+  </div>
+ </div>
+ <div class="section card"><div class="row"><h2 id="selectedDayEntriesTitle">Einträge des ausgewählten Tages</h2><span class="sub">Tagesstatus</span></div><div id="todayEntries" class="empty">Noch keine Einträge.</div></div>
+ <div class="notice">Verbrauch = Basis-Gesamtverbrauch plus zusätzliche aktive Trainingskalorien. Fehlende Angaben werden sichtbar markiert und nicht als bestätigte Nullwerte ausgegeben.</div>
+ <div style="margin-top:12px"><button class="secondary" onclick="showTab(&quot;settings&quot;,null)">⚙ Einstellungen &amp; Datensicherung</button></div>
+</section>
+<section id="food" class="panel">
+ <div class="card">
+  <h2>🍽️ Mahlzeit erfassen</h2>
+  <p class="hint">Trage eine Mahlzeit zunächst mit Beschreibung und geschätzten Nährwerten ein. Die direkte GPT-Fotoanalyse wird nach Einrichtung des sicheren Backend-Dienstes ergänzt.</p>
+  <label>Datum</label><input id="mealDate" type="date" onchange="selectDay(this.value)"><label>Bezeichnung / Beschreibung</label><input id="mealName" placeholder="z. B. Rührei mit zwei Brötchen">
+  <div class="formgrid">
+   <div><label>Kalorien (kcal)</label><input id="mealKcal" type="number" min="0" placeholder="z. B. 620"></div>
+   <div><label>Eiweiß (g)</label><input id="mealProtein" type="number" min="0" step=".1" placeholder="32"></div>
+   <div><label>Kohlenhydrate (g)</label><input id="mealCarbs" type="number" min="0" step=".1" placeholder="65"></div>
+   <div><label>Fett (g)</label><input id="mealFat" type="number" min="0" step=".1" placeholder="24"></div><div><label>Zucker (g)</label><input id="mealSugar" type="number" min="0" step=".1" placeholder="z. B. 12"></div>
+  </div>
+  <label>Mahlzeit</label><select id="mealType"><option value="Frühstück">Frühstück</option><option value="Mittagessen">Mittagessen</option><option value="Abendessen">Abendessen</option><option value="Snack">Snack</option><option value="Getränke">Getränke</option></select>
+  <label><input id="mealEstimated" type="checkbox" checked style="width:auto;margin-right:7px">Werte sind geschätzt</label>
+  <button style="width:100%;margin-top:8px" onclick="addMeal()">Mahlzeit speichern</button>
+ </div>
+ <div class="card"><div class="row"><h2>Mahlzeiten des ausgewählten Tages</h2><span class="sub">Nach Tagesabschnitt gruppiert</span></div><div id="mealList" class="empty">Noch keine Mahlzeiten.</div></div>
+</section>
+<section id="activity" class="panel">
+ <div class="card">
+  <h2>🏃 Aktivität erfassen</h2>
+  <label>Datum</label><input id="activityDate" type="date" onchange="selectDay(this.value)"><label>Aktivität</label><input id="activityName" placeholder="z. B. Krafttraining, Radfahren, Spaziergang">
+  <div class="formgrid">
+   <div><label>Dauer (Minuten)</label><input id="activityDuration" type="number" min="0" placeholder="45"></div>
+   <div><label>Aktive Kalorien (kcal)</label><input id="activityKcal" type="number" min="0" placeholder="250"></div>
+   <div><label>Schritte (optional)</label><input id="activitySteps" type="number" min="0" placeholder="z. B. 6500"></div>
+   <div><label>Distanz km (optional)</label><input id="activityDistance" type="number" min="0" step=".1" placeholder="5.0"></div>
+  </div>
+  <label><input id="activityEstimated" type="checkbox" checked style="width:auto;margin-right:7px">Kalorien sind geschätzt</label>
+  <button style="width:100%;margin-top:8px" onclick="addActivity()">Aktivität speichern</button>
+ </div>
+ <div class="card"><h2>Aktivitäten des ausgewählten Tages</h2><div id="activityList" class="empty">Noch keine Aktivitäten.</div></div>
+</section>
+<section id="history" class="panel">
+ <div class="card">
+  <div class="row"><h2>📊 Tagesverlauf</h2><span class="pill" id="historyCount">0 Tage</span></div>
+  <div class="history-controls"><button class="secondary selected" data-range="7" onclick="setHistoryRange(7,this)">7 Tage</button><button class="secondary" data-range="30" onclick="setHistoryRange(30,this)">30 Tage</button><button class="secondary" data-range="all" onclick="setHistoryRange('all',this)">Gesamt</button></div>
+  <div id="historyDays" class="day-list empty">Noch keine Tage erfasst.</div>
+ </div>
+ <div class="card monthly-calendar-card">
+  <div class="row calendar-heading"><h2>Monatsübersicht</h2><div class="calendar-nav"><button class="secondary" onclick="shiftCalendarMonth(-1)" aria-label="Vorheriger Monat">‹</button><strong id="calendarMonthLabel"></strong><button class="secondary" onclick="shiftCalendarMonth(1)" aria-label="Nächster Monat">›</button></div></div>
+  <div class="calendar-legend"><span><i class="calendar-dot deficit"></i>Defizit</span><span><i class="calendar-dot surplus"></i>Überschuss</span><span><i class="calendar-dot no-data"></i>Keine Daten</span></div>
+  <div id="monthCalendar" class="month-calendar"></div>
+  <div id="monthCalendarSummary" class="hint"></div>
+ </div>
+ <div class="card">
+  <h2>Kalorienbilanz</h2>
+  <p class="hint">Aufnahme minus Verbrauch. Defizite links, Überschüsse rechts. Die Mittellinie entspricht 0 kcal.</p>
+  <div id="balanceChart"></div>
+ </div>
+ <div class="card intake-burn-card">
+  <h2>Aufnahme und Verbrauch</h2>
+  <div class="legend"><span><i class="legend-dot intake-dot"></i>Aufnahme</span><span><i class="legend-dot base-dot"></i>Basisverbrauch</span><span><i class="legend-dot active-dot"></i>Aktiv</span></div>
+  <div id="intakeBurnChart"></div>
+  <p class="hint">Verbrauch = Basisverbrauch plus zusätzlich erfasste aktive Trainingskalorien.</p>
+ </div>
+ <div class="card"><h2>📅 Wochen- und Monatsübersicht</h2><div id="weeklySummary" class="empty">Noch keine Daten.</div><div id="monthlySummary" class="empty"></div></div>
+ <div class="card"><h2>⚖️ Gewichtsverlauf</h2><div id="weightTrend" class="empty">Noch keine Gewichtsmessungen.</div></div>
+ <div class="card"><h2 id="selectedDayTitle">Tagesdetails</h2><div id="daySummary" class="empty">Wähle einen Tag aus dem Verlauf.</div><div id="dayEntries"></div></div>
+</section>
+<section id="weight" class="panel">
+ <div class="card">
+  <h2>⚖️ Gewicht dokumentieren</h2>
+  <label>Gewicht (kg)</label><input id="weightValue" type="number" min="20" max="400" step=".1" placeholder="z. B. 95.6">
+  <label>Datum</label><input id="weightDate" type="date">
+  <button style="width:100%" onclick="addWeight()">Gewicht speichern</button>
+ </div>
+ <div class="card"><h2>Fortschritt zum Zielgewicht</h2><div class="value" id="weightProgressText">—</div><div class="bar"><span id="weightProgressBar"></span></div><p class="hint">Fortschritt vom letzten erfassten Gewicht zum eingestellten Zielgewicht.</p></div>
+ <div class="card"><h2>Gewichtsentwicklung</h2><div class="trend-grid weight-change-grid"><div class="trend-tile"><span>Veränderung · 7 Tage</span><b id="weightChange7">—</b><small id="weightChange7Note">Vergleichsmessung fehlt</small></div><div class="trend-tile"><span>Veränderung · 30 Tage</span><b id="weightChange30">—</b><small id="weightChange30Note">Vergleichsmessung fehlt</small></div></div><div id="weightTrendWeightTab" class="weight-trend-inline"></div></div>
+ <div class="card"><h2>Gewichtsmessungen</h2><div id="weightList" class="empty">Noch keine Messungen.</div></div>
+</section>
+<section id="settings" class="panel">
+ <div class="card"><h2>Deine Ziele</h2><p class="hint">Startwerte aus deinem bisherigen Tracking.</p>
+  <div class="formgrid">
+   <div><label>Kalorienziel</label><input id="goalKcal" type="number" value="1840"></div>
+   <div><label>Eiweiß (g)</label><input id="goalProtein" type="number" value="170"></div>
+   <div><label>Kohlenhydrate (g)</label><input id="goalCarbs" type="number" value="154"></div>
+   <div><label>Fett (g)</label><input id="goalFat" type="number" value="65"></div><div><label>Zucker-Richtwert (g)</label><input id="goalSugar" type="number" value="50" min="1"></div>
+   <div><label>Basisverbrauch (kcal)</label><input id="baseBurn" type="number" value="2340"></div>
+   <div><label>Zielgewicht (kg)</label><input id="goalWeight" type="number" value="90" step=".1"></div>
+  </div><button onclick="saveGoals()">Ziele speichern</button>
+ </div>
+ <div class="card"><h2>Datensicherung</h2><p class="hint">Deine Daten werden lokal in einer IndexedDB-Datenbank dieses Browsers gespeichert. Exportiere regelmäßig eine vollständige JSON-Sicherung. Beim ersten Start werden vorhandene Daten aus der bisherigen Version übernommen.</p>
+  <div class="actions"><button onclick="exportData()">Gesamte Daten exportieren</button></div>
+  <p class="hint" id="storageInfo"></p>
+ </div>
+ <div class="card" id="dropboxCard">
+ <div class="row"><h2>☁️ Dropbox-Tagesimport</h2><span class="pill" id="dropboxStatusPill">Nicht verbunden</span></div>
+ <p class="hint">Beim Öffnen und Aktualisieren sucht die App nach der JSON-Datei des aktuellen Tages. Vor jeder Ergänzung wird zuerst die vollständige lokale Datenbank gesichert und anschließend die automatische Sicherung in Dropbox überschrieben.</p>
+ <label>Dropbox App Key</label><input id="dropboxAppKey" type="text" autocomplete="off" placeholder="App Key aus der Dropbox Developer Console">
+ <label>Dropbox Basisordner</label><input id="dropboxBasePath" type="text" value="/Abnehm-Coach" placeholder="/Abnehm-Coach">
+ <div class="actions"><button class="secondary" onclick="saveDropboxSettings()">Einstellungen speichern</button><button onclick="startDropboxConnect()">Dropbox verbinden</button></div>
+ <div id="dropboxCodePanel" hidden>
+  <p class="hint">Dropbox hat einen Autorisierungscode angezeigt. Kopiere ihn hier hinein:</p>
+  <label>Autorisierungscode</label><input id="dropboxAuthCode" type="text" autocomplete="one-time-code" placeholder="Code von Dropbox einfügen">
+  <button onclick="finishDropboxConnect()">Verbindung bestätigen</button>
+ </div>
+ <div class="actions"><button class="secondary" onclick="syncDropboxToday({manual:true})">Jetzt nach Tagesdatei suchen</button><button class="secondary" onclick="disconnectDropbox()">Dropbox trennen</button></div>
+ <p class="hint" id="dropboxStatusText">Noch keine Dropbox-Verbindung eingerichtet.</p>
+ <p class="hint">Datei: <code>Tagesimport_YYYY-MM-DD.json</code><br>Automatische Sicherung: <code>Automatische-Sicherung/Abnehm-Coach_AutoBackup.json</code></p>
+</div>
+<div class="card"><h2>📥 Tagesimport – sicher ergänzen</h2><p class="hint">Importiert genau einen ausgewählten Tag aus dem Feld „day“ der JSON-Datei. Damit kannst du auch vergangene Tage nachtragen. Alle Einträge in der Datei müssen exakt zu diesem Datum gehören; zukünftige Tage werden abgewiesen. Andere Tage und deine Ziele bleiben unverändert. Vor dem Ergänzen wird der komplette bisherige Datenbestand lokal gesichert und als JSON-Download angeboten.</p>
+  <label class="button secondary" style="display:block;text-align:center">Tages-JSON auswählen<input id="dailyImportFile" type="file" accept=".json,application/json" onchange="importCurrentDay(event)" hidden></label>
+  <p class="hint">Doppelte IDs werden übersprungen. Die App prüft das Datum aus „day“ und verlangt, dass alle Einträge genau diesen Tag haben. Dateien mit mehreren Tagen, ungültigen Daten oder einem Datum in der Zukunft werden vollständig abgewiesen.</p>
+  <div id="dailyImportResult" class="hint" aria-live="polite"></div>
+ </div>
+ <div class="card"><h2>⚠️ Vollständige Sicherung wiederherstellen</h2><p class="hint">Dieser Import ersetzt den kompletten Datenbestand durch die ausgewählte Sicherung. Verwende ihn nur zur Wiederherstellung, nicht zum Ergänzen einzelner Tage.</p>
+  <label class="button secondary" style="display:block;text-align:center">Komplett-Sicherung importieren<input type="file" accept="application/json" onchange="importData(event)" hidden></label>
+ </div>
+ <div class="card"><h2>KI-Anbindung</h2><div class="notice">GPT ist noch nicht verbunden. Für Fotoanalyse und automatische Beschreibungsauswertung richten wir als nächsten Schritt einen sicheren Backend-Endpunkt ein. Bitte niemals einen OpenAI-API-Schlüssel in dieses Formular oder direkt in die App eintragen.</div></div>
+</section>
+</main>
+<nav class="tabs" style="grid-template-columns:repeat(5,1fr)">
+ <button class="active" data-tab="dashboard" onclick="showTab('dashboard',this)"><span>⌂</span>Übersicht</button>
+ <button data-tab="food" onclick="showTab('food',this)"><span>🍽</span>Essen</button>
+ <button data-tab="activity" onclick="showTab('activity',this)"><span>🏃</span>Aktivität</button>
+ <button data-tab="history" onclick="showTab('history',this)"><span>📊</span>Verlauf</button>
+ <button data-tab="weight" onclick="showTab('weight',this)"><span>⚖</span>Gewicht</button>
+</nav>
+<script>
+const KEY='abnehmCoachPro_v01';
+const DB_NAME='AbnehmCoachPro';
+const DB_STORE='appData';
+const DB_KEY='main';
+const defaults={goals:{kcal:1840,protein:170,carbs:154,fat:65,sugar:50,base:2340,targetWeight:90},meals:[],activities:[],weights:[{id:'initial-weight-2026-11-14',date:'2026-11-14',kg:96,initial:true}]};
+let db=structuredClone(defaults);
+let storageReady=false;
+let historyRange=7;
+let selectedHistoryDay=null;
+let calendarMonth=today().slice(0,7);
+let selectedDay=today();
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(DB_STORE))d.createObjectStore(DB_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function readLocal(){const d=await openDB();return new Promise((resolve,reject)=>{const tx=d.transaction(DB_STORE,'readonly');const req=tx.objectStore(DB_STORE).get(DB_KEY);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);tx.oncomplete=()=>d.close()})}
+async function writeLocal(value){const d=await openDB();return new Promise((resolve,reject)=>{const tx=d.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(value,DB_KEY);tx.oncomplete=()=>{d.close();resolve()};tx.onerror=()=>{d.close();reject(tx.error)};tx.onabort=()=>{d.close();reject(tx.error||new Error('Speichern abgebrochen'))}})}
+async function writeLocalBackup(value){const d=await openDB();const key='backup-before-daily-import-latest';return new Promise((resolve,reject)=>{const tx=d.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(value,key);tx.oncomplete=()=>{d.close();resolve(key)};tx.onerror=()=>{d.close();reject(tx.error)};tx.onabort=()=>{d.close();reject(tx.error||new Error('Sicherung konnte nicht gespeichert werden'))}})}
+async function initStorage(){try{let saved=await readLocal();if(saved){db={...structuredClone(defaults),...saved,goals:{...structuredClone(defaults.goals),...(saved.goals||{})}}}else{let old=null;try{old=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}if(old&&Array.isArray(old.meals)&&Array.isArray(old.activities)&&Array.isArray(old.weights)){db={...structuredClone(defaults),...old};await writeLocal(db);localStorage.removeItem(KEY)}else{await writeLocal(db)}}storageReady=true;syncGoalInputs();render()}catch(e){storageReady=false;storageInfo.textContent='Lokaler Speicher konnte nicht initialisiert werden: '+e.message;console.error(e)}}
+async function save(){try{await writeLocal(db);storageReady=true;render()}catch(e){alert('Speichern fehlgeschlagen: '+e.message);console.error(e)}}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+function setBarStatus(id,status){const el=document.getElementById(id);if(el)el.classList.toggle('status-ok',status==='ok'),el.classList.toggle('status-over',status==='over'),el.classList.toggle('status-complete',status==='complete'),el.classList.toggle('status-progress',status==='progress')}
+function selectDay(value){
+ const max=today();
+ if(!value)return;
+ if(value>max){alert('Zukünftige Tage können nicht ausgewählt werden.');value=max}
+ selectedDay=value;
+ ['dashboardDay','mealDate','activityDate'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=value});
+ render();
+}
+
+function uid(){return (window.crypto&&window.crypto.randomUUID)?window.crypto.randomUUID():'id-'+Date.now()+'-'+Math.random().toString(16).slice(2)}
+function n(v){return Number(v)||0}
+function fmt(v){return (Math.round(v*10)/10).toLocaleString('de-DE')}
+
+function isMissing(v){return v===null||v===undefined||v===''||!Number.isFinite(Number(v))}
+function showVal(v,suffix=''){return isMissing(v)?'—':fmt(Number(v))+suffix}
+
+function mealTime(item){const raw=item.time||item.createdAt||item.timestamp;if(!raw)return '';const d=new Date(raw);return Number.isNaN(d.getTime())?'':d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}
+function signedKg(delta){return (delta>0?'+':'')+fmt(delta)+' kg'}
+function setWeightChange(prefix,days){const d=weightDelta(days),el=document.getElementById(prefix+days),note=document.getElementById(prefix+days+'Note');if(!el||!note)return;el.textContent=d?signedKg(d.delta):'—';el.style.color=d?(d.delta<=0?'var(--green)':'var(--orange)'):'var(--muted)';note.textContent=d?d.from+' bis '+d.to:'Keine Vergleichsmessung mindestens '+days+' Tage zurück'}
+
+function qualityFlags(item,keys){const missing=keys.filter(k=>isMissing(item[k]));return `${item.estimated?'<span class="quality-badge quality-estimated">Geschätzt</span>':'<span class="quality-badge quality-measured">Erfasst</span>'}${missing.length?'<span class="quality-badge quality-missing">Fehlt: '+missing.map(k=>({kcal:'Kalorien',protein:'Eiweiß',carbs:'Kohlenhydrate',fat:'Fett'}[k]||k)).join(', ')+'</span>':''}`}
+function average(rows,key){const vals=rows.map(x=>x[key]).filter(v=>!isMissing(v)).map(Number);return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null}
+function weightDelta(days){const ws=db.weights.filter(w=>!isMissing(w.kg)&&w.date).slice().sort((a,b)=>a.date.localeCompare(b.date));if(ws.length<2)return null;const latest=ws[ws.length-1],cutoff=new Date(latest.date+'T12:00:00');cutoff.setDate(cutoff.getDate()-days);const base=ws.filter(w=>new Date(w.date+'T12:00:00')<=cutoff).slice(-1)[0];return base?{delta:Number(latest.kg)-Number(base.kg),from:base.date,to:latest.date}:null}
+function renderDashboardTrends(rows){
+ const current=rows.slice(-7),previous=rows.slice(-14,-7),cur=average(current,'balance'),prev=average(previous,'balance');
+ dashWeekBalance.textContent=cur===null?'—':(cur>0?'+':'')+fmt(cur)+' kcal';
+ dashWeekBalance.style.color=cur===null?'var(--muted)':cur<=0?'var(--green)':'var(--orange)';
+ dashWeekCompare.textContent=previous.length&&cur!==null&&prev!==null?'Vorwoche: '+(prev>0?'+':'')+fmt(prev)+' kcal/Tag · Δ '+(cur-prev>0?'+':'')+fmt(cur-prev):'Vergleich, sobald zwei Gruppen mit vollständigen Kalorienwerten vorliegen';
+ setWeightChange('dashWeight',7);setWeightChange('dashWeight',30);
+}
+
+function showTab(id,btn){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='history')renderHistory();if(id==='weight')renderWeightTrend();}
+function addMeal(){let name=mealName.value.trim();if(!name){alert('Bitte eine Mahlzeit beschreiben.');return}const val=id=>document.getElementById(id).value.trim()===''?null:Number(document.getElementById(id).value);let item={id:uid(),date:mealDate.value||selectedDay,name,type:mealType.value,kcal:val('mealKcal'),protein:val('mealProtein'),carbs:val('mealCarbs'),fat:val('mealFat'),sugar:val('mealSugar'),estimated:mealEstimated.checked,createdAt:new Date().toISOString()};db.meals.push(item);['mealName','mealKcal','mealProtein','mealCarbs','mealFat','mealSugar'].forEach(id=>document.getElementById(id).value='');save();showTab('dashboard',document.querySelector('[data-tab=dashboard]'))}
+function addActivity(){let name=activityName.value.trim();if(!name){alert('Bitte eine Aktivität angeben.');return}db.activities.push({id:uid(),date:activityDate.value||selectedDay,name,duration:n(activityDuration.value),activeKcal:n(activityKcal.value),steps:n(activitySteps.value),distance:n(activityDistance.value),estimated:activityEstimated.checked,createdAt:new Date().toISOString()});['activityName','activityDuration','activityKcal','activitySteps','activityDistance'].forEach(id=>document.getElementById(id).value='');save();showTab('dashboard',document.querySelector('[data-tab=dashboard]'))}
+function addWeight(){let kg=n(weightValue.value);if(kg<20||kg>400){alert('Bitte ein plausibles Gewicht eingeben.');return}db.weights.push({id:uid(),date:weightDate.value||today(),kg});weightValue.value='';save()}
+function syncGoalInputs(){const pairs={goalKcal:'kcal',goalProtein:'protein',goalCarbs:'carbs',goalFat:'fat',goalSugar:'sugar',baseBurn:'base',goalWeight:'targetWeight'};Object.entries(pairs).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&db.goals[key]!==undefined)el.value=db.goals[key]})}
+function saveGoals(){db.goals={...db.goals,kcal:n(goalKcal.value),protein:n(goalProtein.value),carbs:n(goalCarbs.value),fat:n(goalFat.value),sugar:n(goalSugar.value)||50,base:n(baseBurn.value),targetWeight:n(goalWeight.value)};save();alert('Ziele gespeichert.')}
+function del(kind,id){if(!confirm('Eintrag wirklich löschen?'))return;db[kind]=db[kind].filter(x=>x.id!==id);save()}
+function renderList(items,kind,desc){if(!items.length)return '<div class="empty">Noch keine Einträge.</div>';return items.slice().reverse().map(x=>`<div class="entry"><div class="row"><strong>${esc(x.name||fmt(x.kg)+' kg')}</strong><button class="secondary" style="padding:6px 9px" onclick="del('${kind}','${x.id}')">Löschen</button></div><small>${esc(desc(x))}</small></div>`).join('')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ syncGoalInputs();
+ const d=selectedDay||today(),ms=db.meals.filter(x=>x.date===d),acts=db.activities.filter(x=>x.date===d);
+ const sum=(arr,k)=>arr.reduce((a,x)=>a+(isMissing(x[k])?0:Number(x[k])),0);
+ const kcal=sum(ms,'kcal'),p=sum(ms,'protein'),c=sum(ms,'carbs'),f=sum(ms,'fat'),sugar=sum(ms,'sugar'),active=sum(acts,'activeKcal'),burn=n(db.goals.base)+active;
+ const kcalComplete=ms.every(x=>!isMissing(x.kcal)),pComplete=ms.every(x=>!isMissing(x.protein)),bal=kcalComplete?kcal-burn:null;
+ dashboardDate.textContent=new Date(d+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});const dayInput=document.getElementById('dashboardDay');if(dayInput){dayInput.max=today();dayInput.value=d}['mealDate','activityDate'].forEach(id=>{const el=document.getElementById(id);if(el){el.max=today();if(!el.value||el.value!==d)el.value=d}});
+ kcalIn.textContent=fmt(kcal)+(kcalComplete?'':'*');kcalGoalText.textContent='von '+fmt(db.goals.kcal)+' kcal';kcalBar.style.width=Math.min(100,kcal/db.goals.kcal*100)+'%';
+ kcalRemaining.textContent=!kcalComplete?'* Summe unvollständig – Kalorienangaben fehlen':kcal>=db.goals.kcal?fmt(kcal-db.goals.kcal)+' kcal über dem Tagesziel':fmt(db.goals.kcal-kcal)+' kcal bis zum Tagesziel';
+ proteinIn.textContent=fmt(p)+(pComplete?' g':' g*');proteinGoalText.textContent='von '+fmt(db.goals.protein)+' g';proteinKpiBar.style.width=Math.min(100,p/db.goals.protein*100)+'%';
+ proteinRemaining.textContent=!pComplete?'* Eiweißangaben teilweise nicht vorhanden':p>=db.goals.protein?fmt(p-db.goals.protein)+' g über dem Ziel':fmt(db.goals.protein-p)+' g bis zum Ziel';
+ balance.textContent=bal===null?'—':(bal>0?'+':'')+fmt(bal);balance.style.color=bal===null?'var(--muted)':bal>0?'var(--orange)':'var(--green)';balanceNote.textContent=bal===null?'Nicht vollständig berechenbar':'Verbrauch '+fmt(burn)+' kcal';
+ const latest=db.weights.slice().filter(w=>!isMissing(w.kg)).sort((a,b)=>b.date.localeCompare(a.date))[0];
+ weightNow.textContent=latest?fmt(latest.kg)+' kg':'—';weightGoalText.textContent='Ziel: '+fmt(db.goals.targetWeight)+' kg';weightLastDate.textContent=latest?'Stand '+new Date(latest.date+'T12:00:00').toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}):'Noch keine Messung';
+ const target=Number(db.goals.targetWeight),currentWeight=latest?Number(latest.kg):null;
+ const progressText=document.getElementById('weightProgressText'),progressBar=document.getElementById('weightProgressBar');
+ if(progressText&&progressBar){if(currentWeight===null){progressText.textContent='—';progressBar.style.width='0%'}else{const remaining=currentWeight-target;progressText.textContent=remaining>0?fmt(remaining)+' kg bis zum Ziel':fmt(Math.abs(remaining))+' kg unter dem Ziel';const start=Number(db.goals.startWeight||96);const span=Math.max(.1,start-target);progressBar.style.width=Math.max(0,Math.min(100,(start-currentWeight)/span*100))+'%'}}
+ proteinText.textContent=fmt(p)+' / '+fmt(db.goals.protein)+' g'+(pComplete?'':' · teilweise');carbsText.textContent=fmt(c)+' / '+fmt(db.goals.carbs)+' g'+(ms.some(x=>isMissing(x.carbs))?' · teilweise':'');fatText.textContent=fmt(f)+' / '+fmt(db.goals.fat)+' g'+(ms.some(x=>isMissing(x.fat))?' · teilweise':'');
+ const sugarKnown=ms.filter(x=>!isMissing(x.sugar)),sugarGoal=n(db.goals.sugar)||50;
+ sugarText.textContent=sugarKnown.length?fmt(sugar)+' / '+fmt(sugarGoal)+' g'+(sugarKnown.length<ms.length?' · teilweise':''):'— / '+fmt(sugarGoal)+' g';
+ sugarBar.style.width=Math.min(100,sugar/sugarGoal*100)+'%';
+ setBarStatus('kcalGoalBar',kcal<=db.goals.kcal?'ok':'over');
+ setBarStatus('proteinKpiGoalBar',p>=db.goals.protein?'complete':'progress');
+ setBarStatus('proteinMacroGoalBar',p>=db.goals.protein?'complete':'progress');
+ setBarStatus('carbsGoalBar',c<=db.goals.carbs?'ok':'over');
+ setBarStatus('fatGoalBar',f<=db.goals.fat?'ok':'over');
+ setBarStatus('sugarGoalBar',sugar<=sugarGoal?'ok':'over');
+
+ proteinBar.style.width=Math.min(100,p/db.goals.protein*100)+'%';carbsBar.style.width=Math.min(100,c/db.goals.carbs*100)+'%';fatBar.style.width=Math.min(100,f/db.goals.fat*100)+'%';
+ entryCount.textContent=(ms.length+acts.length)+' Einträge';const dayTitle=document.getElementById('selectedDayEntriesTitle');if(dayTitle)dayTitle.textContent='Einträge am '+new Date(d+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'2-digit'});
+ const groups=['Frühstück','Mittagessen','Abendessen','Snack','Getränke'];
+ const mealHtml=groups.map(type=>{
+  const group=ms.filter(x=>(x.type||'Snack')===type);if(!group.length)return '';
+  const total=sum(group,'kcal'),missing=group.some(x=>isMissing(x.kcal));
+  return `<details class="meal-group"><summary><span>${type}</span><span>${group.length} · ${fmt(total)}${missing?'*':''} kcal</span></summary><div class="meal-group-content">${group.slice().sort((a,b)=>(mealTime(a)||'').localeCompare(mealTime(b)||'')).map(x=>`<div class="meal-card"><div class="row"><span class="meal-title">${esc(x.name)}</span><span class="meal-time">${mealTime(x)}</span></div><small>${showVal(x.kcal,' kcal')} · Eiweiß ${showVal(x.protein,' g')} · KH ${showVal(x.carbs,' g')} · Fett ${showVal(x.fat,' g')} · Zucker ${showVal(x.sugar,' g')}</small><div class="quality-line">${qualityFlags(x,['kcal','protein','carbs','fat','sugar'])}</div></div>`).join('')}</div></details>`;
+ }).join('');
+ const actHtml=acts.length?`<details class="meal-group"><summary><span>Aktivitäten</span><span>${acts.length} Einträge · ${fmt(active)} kcal aktiv</span></summary><div class="meal-group-content">${acts.map(x=>`<div class="meal-card"><div class="row"><span class="meal-title">${esc(x.name)}</span><span class="meal-time">${mealTime(x)}</span></div><small>${showVal(x.duration,' Min.')} · ${showVal(x.activeKcal,' aktive kcal')} · ${showVal(x.steps,' Schritte')}</small><div class="quality-line">${qualityFlags(x,['duration','activeKcal','steps'])}</div></div>`).join('')}</div></details>`:'';
+ todayEntries.innerHTML=(mealHtml+actHtml)||'<div class="empty">Noch keine Einträge. Füge deine erste Mahlzeit oder Aktivität hinzu.</div>';
+ mealList.innerHTML=mealHtml||'<div class="empty">Noch keine Mahlzeiten für heute.</div>';
+ activityList.innerHTML=renderList(acts,'activities',x=>`${showVal(x.duration,' Min.')} · ${showVal(x.activeKcal,' aktive kcal')} · ${showVal(x.steps,' Schritte')}${x.estimated?' · geschätzt':''}`);
+ weightList.innerHTML=renderList(db.weights,'weights',x=>`${x.date} · ${fmt(x.kg)} kg${x.initial?' · Startwert':''}`);
+ setWeightChange('weightChange',7);setWeightChange('weightChange',30);renderDashboardTrends(dailyRows());
+ if(document.getElementById('history').classList.contains('active'))renderHistory();if(document.getElementById('weight').classList.contains('active'))renderWeightTrend();
+ storageInfo.textContent=`${storageReady?'Lokal in IndexedDB gespeichert':'Lokaler Speicher wird initialisiert'} · Mahlzeiten: ${db.meals.length}, Aktivitäten: ${db.activities.length}, Gewichtsmessungen: ${db.weights.length}.`;
+}
+
+function dailyRows(){
+ const dates=[...new Set([...db.meals,...db.activities,...db.weights].map(x=>x.date).filter(Boolean))].sort();
+ return dates.map(date=>{
+  const meals=db.meals.filter(x=>x.date===date),acts=db.activities.filter(x=>x.date===date);
+  const sum=(arr,k)=>arr.reduce((t,x)=>t+(isMissing(x[k])?0:Number(x[k])),0);
+  const sumMacro=k=>{const vals=meals.map(m=>m[k]).filter(v=>!isMissing(v)).map(Number);return vals.length?vals.reduce((a,b)=>a+b,0):null};
+  const intake=sum(meals,'kcal'),active=sum(acts,'activeKcal'),burn=n(db.goals.base)+active;
+  const intakeComplete=meals.every(m=>!isMissing(m.kcal));
+  return {date,meals,acts,intake,active,burn,balance:intakeComplete?intake-burn:null,intakeComplete,protein:sumMacro('protein'),carbs:sumMacro('carbs'),fat:sumMacro('fat'),sugar:sumMacro('sugar'),steps:sum(acts,'steps')};
+ });
+}
+
+function setHistoryRange(v,btn){historyRange=v;document.querySelectorAll('[data-range]').forEach(x=>x.classList.remove('selected'));if(btn)btn.classList.add('selected');renderHistory()}
+function shiftCalendarMonth(delta){
+ const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m-1+delta,1);
+ const next=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+ if(next>today().slice(0,7))return;
+ calendarMonth=next;renderMonthCalendar(dailyRows());
+}
+function selectCalendarDay(date){
+ if(date>today())return;
+ selectedHistoryDay=date;
+ selectDay(date);
+ showTab('dashboard',document.querySelector('[data-tab="dashboard"]'));
+}
+function renderMonthCalendar(allRows){
+ const [year,month]=calendarMonth.split('-').map(Number),first=new Date(year,month-1,1),last=new Date(year,month,0);
+ const label=first.toLocaleDateString('de-DE',{month:'long',year:'numeric'});
+ calendarMonthLabel.textContent=label.charAt(0).toUpperCase()+label.slice(1);
+ const byDate=new Map(allRows.map(x=>[x.date,x]));
+ const offset=(first.getDay()+6)%7,days=last.getDate(),weekdayNames=['Mo','Di','Mi','Do','Fr','Sa','So'];
+ let html=weekdayNames.map(x=>`<div class="month-weekday">${x}</div>`).join('');
+ for(let i=0;i<offset;i++)html+='<div></div>';
+ let deficits=0,surpluses=0,known=0,total=0,unknown=0;
+ for(let day=1;day<=days;day++){
+  const date=year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0'),row=byDate.get(date),future=date>today();
+  let cls='no-data',balanceLabel='·',title='Keine Einträge';
+  if(row){
+   if(row.balance===null){cls='unknown';balanceLabel='—';unknown++;title='Daten unvollständig – Bilanz nicht berechenbar'}
+   else{known++;total+=row.balance;if(row.balance<0){cls='deficit';deficits++}else if(row.balance>0){cls='surplus';surpluses++}else cls='no-data';balanceLabel=(row.balance>0?'+':'')+fmt(row.balance);title=(row.balance<0?'Defizit ':row.balance>0?'Überschuss ':'Ausgeglichen ')+fmt(Math.abs(row.balance))+' kcal'}
+  }
+  const isToday=date===today(),selected=date===selectedDay;
+  html+=`<button class="month-day ${cls}${isToday?' today':''}${selected?' selected':''}" ${future?'disabled':''} onclick="selectCalendarDay('${date}')" title="${date}: ${title}" aria-label="${day}. ${label}: ${title}"><span class="day-number">${day}</span><span class="day-balance">${balanceLabel}</span></button>`;
+ }
+ monthCalendar.innerHTML=html;
+ const avg=known?total/known:null;
+ monthCalendarSummary.innerHTML=`<div class="trend-grid"><div class="trend-tile"><span>Defizit-Tage</span><b style="color:#35bd79">${deficits}</b></div><div class="trend-tile"><span>Überschuss-Tage</span><b style="color:#e45b5b">${surpluses}</b></div><div class="trend-tile"><span>Ø Bilanz</span><b>${avg===null?'—':(avg>0?'+':'')+fmt(avg)+' kcal'}</b><small>${known} Tage mit berechenbarer Bilanz${unknown?' · '+unknown+' unvollständig':''}</small></div></div><p class="hint">Tippe auf einen Tag, um dessen Tagesübersicht zu öffnen. „—“ bedeutet: Einträge vorhanden, aber Bilanz unvollständig.</p>`;
+}
+
+function renderHistory(){const all=dailyRows();calendarMonth=(selectedHistoryDay||selectedDay||today()).slice(0,7);renderMonthCalendar(all);const rows=historyRange==='all'?all:all.slice(-Number(historyRange));historyCount.textContent=rows.length+' Tage';if(!selectedHistoryDay||!rows.some(x=>x.date===selectedHistoryDay))selectedHistoryDay=rows.length?rows[rows.length-1].date:null;historyDays.className=rows.length?'day-list':'';historyDays.innerHTML=rows.length?rows.slice().reverse().map(x=>`<button class="day-chip ${x.date===selectedHistoryDay?'selected':''}" onclick="selectHistoryDay('${x.date}')"><strong>${new Date(x.date+'T12:00:00').toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}</strong><small>${fmt(x.intake)} kcal · Bilanz ${x.balance>0?'+':''}${fmt(x.balance)}</small></button>`).join(''):'<div class="empty">Noch keine Tage erfasst.</div>';renderSelectedDay(rows);renderCharts(rows);renderWeeklySummary(all);renderWeightTrend()}
+function selectHistoryDay(date){selectedHistoryDay=date;renderHistory()}
+function renderSelectedDay(rows){
+ const x=rows.find(v=>v.date===selectedHistoryDay);
+ if(!x){selectedDayTitle.textContent='Tagesdetails';daySummary.innerHTML='<div class="empty">Wähle einen Tag aus dem Verlauf.</div>';dayEntries.innerHTML='';return}
+ selectedDayTitle.textContent=new Date(x.date+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ const bal=x.balance;
+ daySummary.innerHTML=`<div class="detail-kpis"><div class="detail-kpi"><span class="label">Aufnahme</span><b>${fmt(x.intake)}${x.intakeComplete?'':'*'} kcal</b></div><div class="detail-kpi"><span class="label">Verbrauch</span><b>${fmt(x.burn)} kcal</b><small class="sub">${fmt(db.goals.base)} Basis + ${fmt(x.active)} aktiv</small></div><div class="detail-kpi"><span class="label">Bilanz</span><b style="color:${bal===null?'var(--muted)':bal>0?'var(--orange)':'var(--green)'}">${bal===null?'—':(bal>0?'+':'')+fmt(bal)+' kcal'}</b></div><div class="detail-kpi"><span class="label">Schritte</span><b>${x.steps?fmt(x.steps):'—'}</b></div></div><div class="data-note">${x.intakeComplete?'':'* Aufnahme enthält nur bekannte Kalorienwerte; die Bilanz ist nicht exakt berechenbar.'}</div><div class="macroline" style="margin-top:12px"><span>Eiweiß ${showVal(x.protein,' g')}</span><span>KH ${showVal(x.carbs,' g')}</span><span>Fett ${showVal(x.fat,' g')}</span><span>Zucker ${showVal(x.sugar,' g')}</span></div>`;
+ let content='';
+ if(x.meals.length){content+='<h2 style="margin-top:16px">Mahlzeiten</h2>'+x.meals.map(m=>`<div class="entry"><strong>${esc(m.name)}</strong><small>${esc(m.type||'')} · ${showVal(m.kcal,' kcal')} · E ${showVal(m.protein,' g')} · KH ${showVal(m.carbs,' g')} · F ${showVal(m.fat,' g')} · Zucker ${showVal(m.sugar,' g')}</small><div class="quality-line">${qualityFlags(m,['kcal','protein','carbs','fat','sugar'])}</div></div>`).join('')}
+ if(x.acts.length){content+='<h2 style="margin-top:16px">Aktivitäten</h2>'+x.acts.map(a=>`<div class="entry"><strong>${esc(a.name)}</strong><small>${showVal(a.duration,' Min.')} · ${showVal(a.activeKcal,' aktive kcal')} · ${showVal(a.steps,' Schritte')}</small><div class="quality-line">${qualityFlags(a,['duration','activeKcal','steps'])}</div></div>`).join('')}
+ dayEntries.innerHTML=content||'<div class="empty">Keine Einträge für diesen Tag.</div>';
+}
+
+function renderCharts(rows){
+ if(!rows.length){balanceChart.innerHTML='<div class="empty">Noch keine Daten für Diagramme.</div>';intakeBurnChart.innerHTML='';return}
+ const dayLabel=date=>new Date(date+'T12:00:00').toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
+ const known=rows.filter(x=>!isMissing(x.balance)),max=Math.max(500,...known.map(x=>Math.abs(x.balance)));
+ balanceChart.innerHTML=rows.slice().reverse().map(x=>{
+  if(isMissing(x.balance))return `<div class="chart-row"><span>${dayLabel(x.date)}</span><div class="balance-track"><div class="balance-fill" style="width:0%"></div></div><b style="text-align:right;color:var(--muted)">—</b></div>`;
+  const w=Math.max(1,Math.abs(x.balance)/max*48),cls=x.balance>0?'positive':'negative';
+  return `<div class="chart-row"><span>${dayLabel(x.date)}</span><div class="balance-track"><div class="balance-fill ${cls}" style="width:${w}%"></div></div><b style="text-align:right;color:${x.balance>0?'var(--orange)':'var(--green)'}">${x.balance>0?'+':''}${fmt(x.balance)}</b></div>`;
+ }).join('');
+ const shown=rows.slice(-14),peak=Math.max(1,...shown.flatMap(x=>[x.intake,x.burn]));
+ intakeBurnChart.innerHTML=`<div class="pair-chart">${shown.map(x=>{
+  const base=Math.max(0,n(db.goals.base)),active=Math.max(0,x.active),baseHeight=base/peak*100,activeHeight=active/peak*100;
+  const intakeHeight=Math.max(0,x.intake/peak*100);
+  return `<div class="pair-col" title="${x.date}: Aufnahme ${fmt(x.intake)}${x.intakeComplete?'':' (unvollständig)'} kcal; Basisverbrauch ${fmt(base)} kcal; aktive Kalorien ${fmt(active)} kcal; Gesamtverbrauch ${fmt(x.burn)} kcal">
+   <div class="pair-bar in" style="height:${intakeHeight}%"></div>
+   <div class="pair-bar out-stack"><span class="burn-base" style="height:${baseHeight}%"></span><span class="burn-active" style="height:${activeHeight}%;bottom:${baseHeight}%"></span></div>
+  </div>`;
+ }).join('')}</div><div class="pair-labels">${shown.map(x=>`<span>${dayLabel(x.date)}</span>`).join('')}</div><p class="hint">Verbrauch: Basisverbrauch (hell) plus aktive Trainingskalorien (dunkel) – beide Anteile sind maßstabsgetreu vom Nullpunkt aus gestapelt.</p>`;
+}
+
+function renderWeeklySummary(rows){
+ const el=document.getElementById('weeklySummary'),monthEl=document.getElementById('monthlySummary');
+ if(!rows.length){el.innerHTML='<div class="empty">Noch keine erfassten Tage.</div>';monthEl.innerHTML='';return}
+ const current=rows.slice(-7),previous=rows.slice(-14,-7),avg=k=>average(current,k);
+ const avgMacro=k=>{const vals=current.map(r=>r[k]).filter(v=>!isMissing(v)).map(Number);return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null};
+ const macroText=k=>{const v=avgMacro(k);return v===null?'—':fmt(v)+' g'};
+ const sessions=current.reduce((a,x)=>a+x.acts.length,0),steps=current.reduce((a,x)=>a+x.steps,0),cur=average(current,'balance'),prev=average(previous,'balance');
+ const compare=previous.length&&cur!==null&&prev!==null?`Vorwoche: ${prev>0?'+':''}${fmt(prev)} kcal/Tag · Veränderung ${cur-prev>0?'+':''}${fmt(cur-prev)} kcal/Tag`:'Vorwochenvergleich noch nicht möglich (fehlende oder zu wenige vollständige Tage).';
+ el.innerHTML=`<div class="week-grid"><div class="week-stat"><span>Ø Aufnahme</span><b>${fmt(avg('intake'))} kcal</b></div><div class="week-stat"><span>Ø Verbrauch</span><b>${fmt(avg('burn'))} kcal</b></div><div class="week-stat"><span>Ø Tagesbilanz</span><b>${cur===null?'—':(cur>0?'+':'')+fmt(cur)+' kcal'}</b></div><div class="week-stat"><span>Ø Eiweiß</span><b>${macroText('protein')}</b></div><div class="week-stat"><span>Ø Kohlenhydrate</span><b>${macroText('carbs')}</b></div><div class="week-stat"><span>Ø Fett</span><b>${macroText('fat')}</b></div><div class="week-stat"><span>Aktivitäten</span><b>${sessions}</b></div><div class="week-stat"><span>Schritte gesamt</span><b>${steps?fmt(steps):'—'}</b></div></div><div class="week-compare">Letzte ${current.length} erfasste Tage. ${compare}</div>`;
+ const last30=rows.slice(-30),prev30=rows.slice(-60,-30),mAvg=k=>average(last30,k),mCur=average(last30,'balance'),mPrev=average(prev30,'balance');
+ const mCompare=prev30.length&&mCur!==null&&mPrev!==null?`Vorherige 30-Tage-Gruppe: ${mPrev>0?'+':''}${fmt(mPrev)} kcal/Tag · Veränderung ${mCur-mPrev>0?'+':''}${fmt(mCur-mPrev)} kcal/Tag`:'Monatsvergleich noch nicht möglich (fehlende oder zu wenige vollständige Tage).';
+ monthEl.innerHTML=`<h3 style="margin:14px 0 8px">Letzte 30 erfasste Tage</h3><div class="week-grid"><div class="week-stat"><span>Ø Aufnahme</span><b>${fmt(mAvg('intake'))} kcal</b></div><div class="week-stat"><span>Ø Verbrauch</span><b>${fmt(mAvg('burn'))} kcal</b></div><div class="week-stat"><span>Ø Tagesbilanz</span><b>${mCur===null?'—':(mCur>0?'+':'')+fmt(mCur)+' kcal'}</b></div></div><div class="week-compare">${mCompare}</div>`;
+}
+
+function renderWeightTrend(){const el=document.getElementById('weightTrend'),el2=document.getElementById('weightTrendWeightTab');let weights=db.weights.slice().filter(x=>Number.isFinite(Number(x.kg))&&x.date).sort((a,b)=>a.date.localeCompare(b.date));if(historyRange!=='all')weights=weights.slice(-Number(historyRange));if(!weights.length){const empty='<div class="empty">Noch keine Gewichtsmessungen im gewählten Zeitraum.</div>';el.innerHTML=empty;if(el2)el2.innerHTML=empty;return}if(weights.length===1){const one=`<div class="value">${fmt(weights[0].kg)} kg</div><div class="hint">Eine Messung vorhanden – für eine Trendlinie sind mindestens zwei Messungen nötig.</div>`;el.innerHTML=one;if(el2)el2.innerHTML=one;return}const vals=weights.map(x=>Number(x.kg)),lo=Math.floor((Math.min(...vals)-.5)*2)/2,hi=Math.ceil((Math.max(...vals)+.5)*2)/2,span=Math.max(.5,hi-lo),W=640,H=220,L=42,R=14,T=18,B=42,innerW=W-L-R,innerH=H-T-B;const pts=weights.map((x,i)=>({x:L+(weights.length===1?innerW/2:i/(weights.length-1)*innerW),y:T+(hi-Number(x.kg))/span*innerH,v:Number(x.kg),date:x.date}));const path=pts.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');const grid=[lo,(lo+hi)/2,hi].map(v=>{let y=T+(hi-v)/span*innerH;return `<line class="weight-grid" x1="${L}" y1="${y}" x2="${W-R}" y2="${y}"/><text class="weight-axis" x="${L-7}" y="${y+3}" text-anchor="end">${fmt(v)}</text>`}).join('');const dots=pts.map(p=>`<circle class="weight-dot" cx="${p.x}" cy="${p.y}" r="4"><title>${p.date}: ${fmt(p.v)} kg</title></circle>`).join('');const labels=[pts[0],pts[Math.floor((pts.length-1)/2)],pts[pts.length-1]].map(p=>`<text class="weight-axis" x="${p.x}" y="${H-14}" text-anchor="middle">${new Date(p.date+'T12:00:00').toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</text>`).join('');const delta=vals[vals.length-1]-vals[0];const chartHtml=`<svg class="weight-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gewichtsverlauf als Liniendiagramm">${grid}<path class="weight-line" d="${path}"/>${dots}${labels}</svg><div class="row"><b>${fmt(vals[0])} kg → ${fmt(vals[vals.length-1])} kg</b><b style="color:${delta<=0?'var(--green)':'var(--orange)'}">${delta>0?'+':''}${fmt(delta)} kg</b></div><p class="hint">${weights.length} Messungen im Zeitraum. Einzelne Schwankungen sind normal – entscheidend ist der längerfristige Trend.</p>`;el.innerHTML=chartHtml;if(el2)el2.innerHTML=chartHtml}
+
+function exportData(){const payload={app:'Abnehm-Coach Pro',schema_version:1,exported_at:new Date().toISOString(),goals:db.goals,meals:db.meals,activities:db.activities,weights:db.weights};let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='abnehm-coach-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+
+function downloadJson(payload,filename){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+function backupPayload(){return {app:'Abnehm-Coach Pro',schema_version:1,exported_at:new Date().toISOString(),backup_reason:'Automatische Sicherung vor Tagesimport',goals:structuredClone(db.goals),meals:structuredClone(db.meals),activities:structuredClone(db.activities),weights:structuredClone(db.weights)}}
+function validISODate(value){
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ const d=new Date(value+'T00:00:00');
+ return Number.isFinite(d.getTime())&&d.getFullYear()===Number(value.slice(0,4))&&(d.getMonth()+1)===Number(value.slice(5,7))&&d.getDate()===Number(value.slice(8,10));
+}
+function validDayEntry(v,name,importDay){
+ if(!v||typeof v!=='object'||Array.isArray(v))throw Error(name+': Eintrag ist kein Objekt.');
+ if(typeof v.id!=='string'||!v.id.trim())throw Error(name+': ID fehlt.');
+ if(!validISODate(v.date))throw Error(name+': Datum ist ungültig.');
+ if(v.date!==importDay)throw Error(name+': Eintrag vom '+v.date+' passt nicht zum ausgewählten Importtag '+importDay+'.');
+ return v;
+}
+async function importCurrentDay(e){
+ const file=e.target.files&&e.target.files[0];
+ const result=document.getElementById('dailyImportResult');
+ if(!file)return;
+ result.textContent='Importdatei wird geprüft …';
+ try{
+  const x=JSON.parse(await file.text());
+  await applyDailyPayload(x,{source:'manual',confirmImport:true,downloadLocalBackup:true});
+  result.textContent='✓ Tagesimport abgeschlossen.';
+ }catch(err){
+  result.textContent='Import abgebrochen: '+err.message;
+  alert('Tagesimport nicht durchgeführt: '+err.message+'\nDeine bisherigen Daten wurden nicht verändert.');
+ }finally{e.target.value=''}
+}
+async function applyDailyPayload(x,{source='manual',confirmImport=false,downloadLocalBackup=false}={}){
+ if(!storageReady)throw Error('Der lokale Speicher ist noch nicht bereit.');
+ if(!x||typeof x!=='object'||Array.isArray(x))throw Error('Die JSON-Datei enthält kein gültiges Datenobjekt.');
+ if(x.schema_version!==undefined&&Number(x.schema_version)>1)throw Error('Diese Datei stammt aus einer neueren App-Version.');
+ if(!validISODate(x.day))throw Error('Das Feld „day“ fehlt oder enthält kein gültiges Datum im Format YYYY-MM-DD.');
+ const importDay=x.day;
+ if(importDay>today())throw Error('Zukünftige Tage können nicht importiert werden.');
+ if(source==='dropbox'&&importDay!==today())throw Error('Die Dropbox-Datei gehört nicht zum heutigen Datum.');
+ const arrays=[['meals','Mahlzeiten'],['activities','Aktivitäten'],['weights','Gewichtsmessungen']];
+ for(const [key,label] of arrays)if(x[key]!==undefined&&!Array.isArray(x[key]))throw Error(label+' müssen als Liste vorliegen.');
+ const incoming={meals:x.meals||[],activities:x.activities||[],weights:x.weights||[]},incomingIds=new Set();
+ for(const [key,label] of arrays)incoming[key].forEach(v=>{validDayEntry(v,label,importDay);if(incomingIds.has(v.id))throw Error('Die ID '+v.id+' kommt mehrfach in der Importdatei vor.');incomingIds.add(v.id)});
+ const total=incoming.meals.length+incoming.activities.length+incoming.weights.length;
+ if(!total)throw Error('Die Datei enthält keine Einträge für '+importDay+'.');
+ const currentIds=new Set([...db.meals,...db.activities,...db.weights].map(v=>v.id));
+ const counts={meals:0,activities:0,weights:0,skipped:0};
+ const next={...db,goals:structuredClone(db.goals),meals:db.meals.slice(),activities:db.activities.slice(),weights:db.weights.slice()};
+ for(const [key] of arrays)for(const item of incoming[key]){if(currentIds.has(item.id)){counts.skipped++;continue}next[key].push(structuredClone(item));currentIds.add(item.id);counts[key]++}
+ const newCount=counts.meals+counts.activities+counts.weights;
+ if(!newCount)return {imported:0,skipped:counts.skipped,counts,day:importDay};
+ const dateLabel=new Date(importDay+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ if(confirmImport&&!confirm('Importdatum: '+dateLabel+'\n\n'+incoming.meals.length+' Mahlzeiten, '+incoming.activities.length+' Aktivitäten und '+incoming.weights.length+' Gewichtsmessungen in der Datei.\n\nNeue IDs werden ergänzt; vorhandene IDs übersprungen.\n\nVorher wird eine lokale und – falls verbunden – eine Dropbox-Vollsicherung erstellt.\n\nDiesen Tag jetzt sicher ergänzen?'))return {cancelled:true};
+ const backup=backupPayload();backup.backup_reason='Automatische Sicherung vor Tagesimport für '+importDay;
+ await writeLocalBackup(backup);
+ if(dropboxIsConfiguredAndConnected()){
+  setDropboxStatus('pending','Sichere aktuellen Datenbestand in Dropbox …');
+  await uploadDropboxBackup(backup);
+ }else if(source==='dropbox'){
+  throw Error('Dropbox ist nicht verbunden. Der Import wurde aus Sicherheitsgründen abgebrochen.');
+ }
+ if(downloadLocalBackup)downloadJson(backup,'abnehm-coach-vollsicherung-vor-tagesimport-'+importDay+'-'+today()+'.json');
+ await writeLocal(next);db=next;render();
+ return {imported:newCount,skipped:counts.skipped,counts,day:importDay};
+}
+function importData(e){let file=e.target.files[0];if(!file)return;let r=new FileReader();r.onload=async()=>{try{let x=JSON.parse(r.result);if(!x||!Array.isArray(x.meals)||!Array.isArray(x.activities)||!Array.isArray(x.weights)||!x.goals||typeof x.goals!=='object')throw Error('Datenstruktur unvollständig oder ungültig');if(x.schema_version!==undefined&&Number(x.schema_version)>1)throw Error('Diese Sicherung stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.');for(const [arr,name] of [[x.meals,'Mahlzeiten'],[x.activities,'Aktivitäten'],[x.weights,'Gewichtsmessungen']]){if(!arr.every(v=>v&&typeof v==='object'&&typeof v.id==='string'&&typeof v.date==='string'))throw Error(name+' enthalten ungültige Einträge.')}if(!confirm('Import ersetzt deine aktuellen App-Daten vollständig. Vorhandene Daten vorher exportieren?'))return;const next={goals:{...structuredClone(defaults.goals),...x.goals},meals:x.meals,activities:x.activities,weights:x.weights};await writeLocal(next);db=next;render();alert('JSON-Sicherung erfolgreich importiert.')}catch(err){alert('Import fehlgeschlagen: '+err.message)}finally{e.target.value=''}};r.readAsText(file)}
+
+// Dropbox API: OAuth 2.0 Authorization Code + PKCE (public browser client).
+const DROPBOX_META_KEY='dropbox-auth-v1',DROPBOX_CFG_KEY='dropbox-config-v1';
+let dropboxSyncRunning=false;
+async function readAppMeta(key){const d=await openDB();return new Promise((resolve,reject)=>{const tx=d.transaction(DB_STORE,'readonly'),r=tx.objectStore(DB_STORE).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error);tx.oncomplete=()=>d.close()})}
+async function writeAppMeta(key,value){const d=await openDB();return new Promise((resolve,reject)=>{const tx=d.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(value,key);tx.oncomplete=()=>{d.close();resolve()};tx.onerror=()=>{d.close();reject(tx.error)};tx.onabort=()=>{d.close();reject(tx.error||new Error('Speichern fehlgeschlagen'))}})}
+function dropboxConfig(){return JSON.parse(localStorage.getItem(DROPBOX_CFG_KEY)||'{}')}
+function dropboxBase(){let p=(document.getElementById('dropboxBasePath')?.value||dropboxConfig().basePath||'/Abnehm-Coach').trim();p='/'+p.split('/').filter(Boolean).join('/');return p==='/'?'/Abnehm-Coach':p}
+function setDropboxStatus(state,message){const pill=document.getElementById('dropboxStatusPill'),txt=document.getElementById('dropboxStatusText');if(pill){pill.className='pill '+(state==='connected'?'connected':state==='error'?'error':state==='pending'?'pending':'');pill.textContent=state==='connected'?'Verbunden':state==='error'?'Verbindungsfehler':state==='pending'?'In Bearbeitung':'Nicht verbunden'}if(txt)txt.textContent=message||''}
+function dropboxIsConfiguredAndConnected(){return !!(dropboxConfig().appKey&&dropboxConfig().basePath&&window.__dropboxAuthCache)}
+async function loadDropboxAuth(){window.__dropboxAuthCache=await readAppMeta(DROPBOX_META_KEY);return window.__dropboxAuthCache}
+async function saveDropboxSettings(){const appKey=document.getElementById('dropboxAppKey').value.trim(),basePath=dropboxBase();if(!appKey){alert('Bitte zuerst den Dropbox App Key eintragen.');return}localStorage.setItem(DROPBOX_CFG_KEY,JSON.stringify({appKey,basePath}));setDropboxStatus('pending','Dropbox-Einstellungen gespeichert. Bitte verbinden oder Verbindung prüfen.');await loadDropboxAuth()}
+function base64Url(bytes){return btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function randomVerifier(){const a=new Uint8Array(64);crypto.getRandomValues(a);return Array.from(a,x=>'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'[x%66]).join('')}
+async function startDropboxConnect(){
+ const authTab=window.open('about:blank','_blank');
+ const cfg=dropboxConfig(),appKey=(document.getElementById('dropboxAppKey').value||cfg.appKey||'').trim();
+ if(!appKey){if(authTab)authTab.close();alert('Bitte zuerst den Dropbox App Key eintragen und Einstellungen speichern.');return}
+ localStorage.setItem(DROPBOX_CFG_KEY,JSON.stringify({appKey,basePath:dropboxBase()}));
+ if(!crypto.subtle){if(authTab)authTab.close();alert('Diese Browserumgebung unterstützt keine sichere PKCE-Verschlüsselung. Öffne die App über eine HTTPS-Adresse und versuche es erneut.');return}
+ try{
+  const verifier=randomVerifier(),digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier)),challenge=base64Url(digest),state=uid();
+  sessionStorage.setItem('dbx_pkce_verifier',verifier);sessionStorage.setItem('dbx_oauth_state',state);
+  const u=new URL('https://www.dropbox.com/oauth2/authorize');u.searchParams.set('client_id',appKey);u.searchParams.set('response_type','code');u.searchParams.set('token_access_type','offline');u.searchParams.set('code_challenge',challenge);u.searchParams.set('code_challenge_method','S256');u.searchParams.set('state',state);u.searchParams.set('scope','files.metadata.read files.content.read files.content.write');
+  document.getElementById('dropboxCodePanel').hidden=false;
+  if(authTab)authTab.location.href=u.toString();else throw Error('Chrome hat das neue Anmeldefenster blockiert. Bitte Pop-ups für die App erlauben und erneut versuchen.');
+  setDropboxStatus('pending','Dropbox-Anmeldung geöffnet. Autorisiere die App, kopiere danach den angezeigten Code hier hinein.');
+ }catch(e){if(authTab)authTab.close();setDropboxStatus('error',e.message);alert(e.message)}
+}
+async function finishDropboxConnect(){
+ const cfg=dropboxConfig(),code=document.getElementById('dropboxAuthCode').value.trim(),verifier=sessionStorage.getItem('dbx_pkce_verifier');
+ if(!code||!verifier){alert('Autorisierungscode fehlt oder der Verbindungsversuch ist abgelaufen. Bitte erneut verbinden.');return}
+ try{
+  const body=new URLSearchParams({code,grant_type:'authorization_code',client_id:cfg.appKey,code_verifier:verifier});
+  const r=await fetch('https://api.dropboxapi.com/oauth2/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
+  const data=await r.json();if(!r.ok)throw Error(data.error_description||data.error||'Token-Austausch fehlgeschlagen');
+  if(!data.refresh_token)throw Error('Dropbox hat keinen Refresh-Token geliefert. Bitte erneut verbinden und Offline-Zugriff erlauben.');
+  await writeAppMeta(DROPBOX_META_KEY,{refreshToken:data.refresh_token,accessToken:data.access_token,expiresAt:Date.now()+(data.expires_in||14400)*1000});
+  window.__dropboxAuthCache=await readAppMeta(DROPBOX_META_KEY);sessionStorage.removeItem('dbx_pkce_verifier');sessionStorage.removeItem('dbx_oauth_state');document.getElementById('dropboxCodePanel').hidden=true;document.getElementById('dropboxAuthCode').value='';
+  await ensureDropboxFolders();setDropboxStatus('connected','Dropbox verbunden. Tagesimporte und automatische Sicherung sind bereit.');await syncDropboxToday({manual:true});
+ }catch(e){setDropboxStatus('error','Verbindung fehlgeschlagen: '+e.message);alert('Dropbox-Verbindung fehlgeschlagen: '+e.message)}
+}
+async function getDropboxAccessToken(){
+ const cfg=dropboxConfig();let auth=await loadDropboxAuth();if(!cfg.appKey||!auth?.refreshToken)throw Error('Dropbox ist nicht verbunden.');
+ if(auth.accessToken&&auth.expiresAt>Date.now()+60000)return auth.accessToken;
+ const body=new URLSearchParams({grant_type:'refresh_token',refresh_token:auth.refreshToken,client_id:cfg.appKey});
+ const r=await fetch('https://api.dropboxapi.com/oauth2/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
+ const data=await r.json();if(!r.ok)throw Error(data.error_description||data.error||'Dropbox-Token konnte nicht erneuert werden.');
+ auth={...auth,accessToken:data.access_token,expiresAt:Date.now()+(data.expires_in||14400)*1000};await writeAppMeta(DROPBOX_META_KEY,auth);window.__dropboxAuthCache=auth;return auth.accessToken;
+}
+async function dbxRpc(endpoint,args){
+ const token=await getDropboxAccessToken(),r=await fetch('https://api.dropboxapi.com/2/'+endpoint,{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(args)});
+ const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error_summary||data.error||('Dropbox API Fehler '+r.status));return data;
+}
+async function ensureDropboxFolder(path){
+ try{await dbxRpc('files/create_folder_v2',{path,autorename:false})}
+ catch(e){if(!String(e.message).includes('path/conflict/folder'))throw e}
+}
+async function ensureDropboxFolders(){
+ const b=dropboxBase();await ensureDropboxFolder(b);await ensureDropboxFolder(b+'/Tagesimporte');await ensureDropboxFolder(b+'/Automatische-Sicherung');
+}
+async function uploadDropboxBackup(payload){
+ const path=dropboxBase()+'/Automatische-Sicherung/Abnehm-Coach_AutoBackup.json',token=await getDropboxAccessToken();
+ const r=await fetch('https://content.dropboxapi.com/2/files/upload',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/octet-stream','Dropbox-API-Arg':JSON.stringify({path,mode:'overwrite',autorename:false,mute:true})},body:JSON.stringify(payload,null,2)});
+ const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error_summary||data.error||('Dropbox-Backup fehlgeschlagen ('+r.status+')'));return data;
+}
+async function downloadDropboxFile(path){
+ const token=await getDropboxAccessToken(),r=await fetch('https://content.dropboxapi.com/2/files/download',{method:'POST',headers:{'Authorization':'Bearer '+token,'Dropbox-API-Arg':JSON.stringify({path})}});
+ if(!r.ok){const t=await r.text();throw Error(t||'Datei konnte nicht heruntergeladen werden ('+r.status+')')}return await r.text();
+}
+async function syncDropboxToday({manual=false}={}){
+ if(dropboxSyncRunning)return;dropboxSyncRunning=true;
+ try{
+  const cfg=dropboxConfig();if(!cfg.appKey){if(manual)alert('Bitte zuerst Dropbox App Key eintragen und verbinden.');return}
+  if(!await loadDropboxAuth()){setDropboxStatus('pending','Dropbox ist noch nicht verbunden.');if(manual)alert('Bitte zuerst Dropbox verbinden.');return}
+  setDropboxStatus('pending','Suche Tagesimport_'+today()+'.json …');
+  const folder=dropboxBase()+'/Tagesimporte',listing=await dbxRpc('files/list_folder',{path:folder,recursive:false,include_deleted:false});
+  const filename='Tagesimport_'+today()+'.json',entry=(listing.entries||[]).find(x=>x['.tag']==='file'&&x.name===filename);
+  if(!entry){setDropboxStatus('connected','Dropbox geprüft: Keine Tagesdatei für '+today()+' gefunden.');if(manual)alert('Keine Datei '+filename+' im Ordner '+folder+' gefunden.');return}
+  const raw=await downloadDropboxFile(entry.path_lower||entry.path),payload=JSON.parse(raw);
+  const result=await applyDailyPayload(payload,{source:'dropbox'});
+  if(result.cancelled)return;
+  if(result.imported){setDropboxStatus('connected',result.imported+' neue Einträge importiert, '+result.skipped+' doppelte IDs übersprungen. Automatische Sicherung wurde überschrieben.')}
+  else setDropboxStatus('connected','Tagesdatei gefunden; alle '+result.skipped+' Einträge waren bereits importiert. Keine Änderung nötig.');
+  if(manual)alert(result.imported?result.imported+' neue Einträge importiert.':'Keine neuen Einträge – alle IDs waren bereits vorhanden.');
+ }catch(e){setDropboxStatus('error','Dropbox-Prüfung fehlgeschlagen: '+e.message+' Deine lokalen Daten sind unverändert.');if(manual)alert('Dropbox-Import nicht durchgeführt: '+e.message)}
+ finally{dropboxSyncRunning=false}
+}
+async function disconnectDropbox(){if(!confirm('Dropbox-Verbindung auf diesem Gerät trennen? Deine lokalen Daten und Dropbox-Dateien bleiben erhalten.'))return;await writeAppMeta(DROPBOX_META_KEY,null);window.__dropboxAuthCache=null;setDropboxStatus('','Dropbox-Verbindung getrennt.');}
+async function initializeDropboxUI(){
+ const cfg=dropboxConfig();if(document.getElementById('dropboxAppKey'))document.getElementById('dropboxAppKey').value=cfg.appKey||'';if(document.getElementById('dropboxBasePath'))document.getElementById('dropboxBasePath').value=cfg.basePath||'/Abnehm-Coach';
+ const auth=await loadDropboxAuth();if(auth?.refreshToken)setDropboxStatus('connected','Dropbox-Verbindung gespeichert. Automatische Tagesprüfung wird gestartet.');else setDropboxStatus('','Dropbox noch nicht verbunden.');
+}
+
+todayEl=document.getElementById('today');todayEl.textContent=new Date().toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'short'});weightDate.value=today();
+initStorage().then(async()=>{await initializeDropboxUI();if(dropboxConfig().appKey&&window.__dropboxAuthCache)syncDropboxToday({manual:false})});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&storageReady&&dropboxConfig().appKey)syncDropboxToday({manual:false})});
+window.addEventListener('focus',()=>{if(storageReady&&dropboxConfig().appKey)syncDropboxToday({manual:false})});
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
