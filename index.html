@@ -433,7 +433,7 @@ function render(){
   const setGaugeSegment=(id,start,end)=>{const path=document.getElementById(id),from=Math.max(0,Math.min(1,start))*gaugeLength,to=Math.max(0,Math.min(1,end))*gaugeLength,len=Math.max(0,to-from);path.style.strokeDasharray=len+' '+(gaugeLength-len);path.style.strokeDashoffset=-from};
   const gaugePoint=p=>{const a=(135+270*Math.max(0,Math.min(1,p)))*Math.PI/180;return{x:180+118*Math.cos(a),y:135+118*Math.sin(a)}};
   setGaugeSegment('gaugeIntake',0,Math.min(kcal,kcalGoal)/gaugeScale);
-  setGaugeSegment('gaugeToGoal',Math.min(kcal,kcalGoal)/gaugeScale,gaugeGoalPct);
+  setGaugeSegment('gaugeToGoal',gaugeGoalPct,gaugeGoalPct);
   setGaugeSegment('gaugeOverGoal',gaugeGoalPct,Math.min(kcal,burn)/gaugeScale);
   setGaugeSegment('gaugeOverBurn',gaugeBurnPct,kcal/gaugeScale);
   const intakePoint=gaugePoint(gaugePct),goalPoint=gaugePoint(gaugeGoalPct),burnPoint=gaugePoint(gaugeBurnPct);
