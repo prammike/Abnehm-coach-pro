@@ -456,7 +456,7 @@ function render(){
   const intakePoint=gaugePoint(gaugePct),goalPoint=gaugePoint(gaugeGoalPct),burnPoint=gaugePoint(gaugeBurnPct);
   gaugeIntakeMarker.setAttribute('cx',intakePoint.x);gaugeIntakeMarker.setAttribute('cy',intakePoint.y);
   const setRadialTick=(el,point)=>{const dx=point.x-180,dy=point.y-135,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;el.setAttribute('x1',180+ux*108);el.setAttribute('y1',135+uy*108);el.setAttribute('x2',180+ux*128);el.setAttribute('y2',135+uy*128)};
-  const setTickLabel=(el,point)=>{const dx=point.x-180,dy=point.y-135,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;const labelX=point.x+(ux>0? -17:17),labelY=point.y+(uy>0? -10:14);el.setAttribute('x',labelX);el.setAttribute('y',labelY);el.setAttribute('text-anchor',ux>0?'end':'start');const value=el.querySelector('.tick-label-value');value.setAttribute('x',labelX)};
+  const setTickLabel=(el,point)=>{const dx=point.x-180,dy=point.y-135,len=Math.hypot(dx,dy)||1,ux=dx/len;const labelX=point.x+ux*27,labelY=point.y-13;el.setAttribute('x',labelX);el.setAttribute('y',labelY);el.setAttribute('text-anchor',ux>0?'start':'end');const value=el.querySelector('.tick-label-value');value.setAttribute('x',labelX)};
   setRadialTick(gaugeGoalMarker,goalPoint);setRadialTick(gaugeBurnMarker,burnPoint);setTickLabel(gaugeGoalLabel,goalPoint);setTickLabel(gaugeBurnLabel,burnPoint);
   gaugeGoalLabel.querySelector('.tick-label-value').textContent=fmt(kcalGoal)+' kcal';gaugeBurnLabel.querySelector('.tick-label-value').textContent=fmt(burn)+' kcal';
   gaugeIntakeLegend.textContent=fmt(kcal)+' kcal';gaugeOverGoalLegend.textContent=fmt(Math.max(0,burn-kcalGoal))+' kcal';gaugeOverBurnLegend.textContent=fmt(Math.max(0,kcal-burn))+' kcal';
