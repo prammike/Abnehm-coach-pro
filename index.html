@@ -19,6 +19,41 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
 .pair-bar.out-stack{background:none;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}.pair-bar.out-stack .burn-active{width:100%;background:#d98a3b;flex-shrink:0}.pair-bar.out-stack .burn-base{width:100%;background:#ffc477;flex-shrink:0}.legend{display:flex;gap:14px;flex-wrap:wrap}.legend span{display:inline-flex;align-items:center;gap:6px}.legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px}.intake-dot{background:var(--blue)}.base-dot{background:#ffc477}.active-dot{background:#d98a3b}
 .dashboard-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 4px 16px}.dashboard-heading h1{font-size:25px;line-height:1.15;margin:4px 0}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green);font-weight:800}.dashboard-kpis .kpi-primary{border-color:var(--green)}
  .dashboard-kpis .kpi-primary{grid-column:1/-1;padding:20px 18px;min-height:230px}
+ .calorie-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+ .calorie-gauge-wrap{position:relative;max-width:390px;margin:0 auto}
+ .calorie-gauge{display:block;width:100%;height:auto;overflow:visible}
+ .calorie-gauge path{fill:none;stroke-width:17;stroke-linecap:round}
+ .gauge-track{stroke:#29394d}
+ .gauge-intake{stroke:#35d69a}
+ .gauge-to-goal{stroke:#a5ebcf}
+ .gauge-over-goal{stroke:#ffd13f}
+ .gauge-over-burn{stroke:#ff5362}
+ .gauge-marker{fill:#f4f7fb;stroke:#101722;stroke-width:2}
+ .gauge-center-value{font-size:34px;font-weight:800;fill:var(--text);text-anchor:middle}
+ .gauge-center-unit{font-size:17px;font-weight:700;fill:var(--text);text-anchor:middle}
+ .gauge-center-caption{font-size:14px;fill:var(--muted);text-anchor:middle}
+ .gauge-callout{position:absolute;display:flex;flex-direction:column;gap:1px;font-size:12px;background:#101b29e8;border:1px solid var(--line);border-radius:10px;padding:5px 8px;box-shadow:0 3px 12px #0004}
+ .gauge-callout span{color:var(--muted)}
+ .gauge-callout b{font-size:12px;white-space:nowrap}
+ .goal-callout{right:2%;top:7%;border-color:#35d69a}
+ .goal-callout b{color:#a5ebcf}
+ .burn-callout{right:0;top:43%;border-color:#ffd13f}
+ .burn-callout b{color:#ffd13f}
+ .gauge-legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:2px 0 13px}
+ .gauge-legend>div{display:flex;gap:6px;align-items:flex-start;min-width:0;border-right:1px solid var(--line);padding-right:5px}
+ .gauge-legend>div:last-child{border:0}
+ .gauge-legend i{width:10px;height:10px;flex:0 0 10px;border-radius:50%;margin-top:4px}
+ .gauge-legend span{font-size:10px;color:var(--muted);line-height:1.25}
+ .gauge-legend b{display:block;font-size:11px;color:var(--text);margin-top:3px}
+ .legend-intake{background:#35d69a}.legend-to-goal{background:#a5ebcf}.legend-over-goal{background:#ffd13f}.legend-over-burn{background:#ff5362}
+ .gauge-summary{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+ .gauge-summary>div{text-align:center;display:flex;flex-direction:column;gap:2px}
+ .gauge-summary>div+div{border-left:1px solid var(--line)}
+ .gauge-summary span{font-size:11px;color:var(--muted)}
+ .gauge-summary b{font-size:17px;color:var(--green)}
+ .gauge-summary>div+div b{color:#ffd13f}
+ .dashboard-kpis .kpi-primary .kpi-foot{text-align:center;margin-top:10px}
+ @media(max-width:390px){.gauge-legend{gap:3px}.gauge-legend span{font-size:9px}.gauge-legend b{font-size:10px}.gauge-callout{padding:4px 6px}.gauge-callout b{font-size:10px}.calorie-gauge-wrap{margin-left:-4px;margin-right:-4px}}
  .dashboard-kpis .kpi-primary .value{font-size:clamp(30px,8vw,40px)}
  .dashboard-kpis .kpi-primary .bar-scale-wrap{margin-top:16px}
  .dashboard-kpis .kpi-primary .kcal-range{height:12px}
@@ -186,7 +221,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
 <section id="dashboard" class="panel active">
  <div class="dashboard-meta day-select-row"><div><span class="pill" id="entryCount">0 Einträge</span><span id="dashboardDate" class="dashboard-date-label"></span></div><label class="day-picker-label">Tag auswählen<input id="dashboardDay" type="date" onchange="selectDay(this.value)" aria-label="Tag für Tagesübersicht auswählen"></label></div>
  <div class="grid dashboard-kpis">
-  <div class="card kpi-primary"><div class="label">Kalorien</div><div class="value" id="kcalIn">0</div><div class="bar-scale-wrap"><div class="bar kcal-range" id="kcalGoalBar"><span class="kcal-segment kcal-intake" id="kcalBar"></span><span class="kcal-segment kcal-to-goal" id="kcalToGoalBar"></span><span class="kcal-segment kcal-over-goal" id="kcalOverGoalBar"></span><span class="kcal-segment kcal-over-burn" id="kcalOverBurnBar"></span><i class="kcal-intake-marker" id="kcalIntakeMarker"></i><i class="kcal-goal-marker" id="kcalGoalMarker"></i><i class="kcal-burn-marker" id="kcalBurnMarker"></i></div><div class="kcal-axis"><span class="axis-zero">0</span><span class="axis-intake" id="kcalIntakeLabel">1.932</span><span class="axis-goal" id="kcalGoalLabel">2.640</span><span class="axis-burn" id="kcalBurnLabel">3.140</span></div></div><div class="kcal-target-row"><span class="kcal-chip kcal-goal-chip" id="kcalGoalText">Ziel 1.840 kcal</span><span class="kcal-chip" id="kcalBurnText">Verbrauch 2.340 kcal</span></div><div class="kpi-foot" id="kcalRemaining">Noch 1.840 kcal bis zum Ziel</div></div>
+  <div class="card kpi-primary"><div class="calorie-head"><div><div class="label">Kalorien</div><div class="sub">Tagesziel &amp; Verbrauch</div></div></div><div class="calorie-gauge-wrap"><svg class="calorie-gauge" viewBox="0 0 360 250" role="img" aria-label="Kalorienuhr mit Aufnahme, Tagesziel und Verbrauch"><path class="gauge-track" d="M 96.6 218.4 A 118 118 0 1 0 263.4 218.4"/><path class="gauge-intake" id="gaugeIntake" d="M 96.6 218.4 A 118 118 0 1 0 263.4 218.4"/><path class="gauge-to-goal" id="gaugeToGoal" d="M 96.6 218.4 A 118 118 0 1 0 263.4 218.4"/><path class="gauge-over-goal" id="gaugeOverGoal" d="M 96.6 218.4 A 118 118 0 1 0 263.4 218.4"/><path class="gauge-over-burn" id="gaugeOverBurn" d="M 96.6 218.4 A 118 118 0 1 0 263.4 218.4"/><circle class="gauge-marker intake" id="gaugeIntakeMarker" r="5"/><circle class="gauge-marker goal" id="gaugeGoalMarker" r="5"/><circle class="gauge-marker burn" id="gaugeBurnMarker" r="5"/><text class="gauge-center-value" x="180" y="128" id="gaugeKcal">0</text><text class="gauge-center-unit" x="180" y="153">kcal</text><text class="gauge-center-caption" x="180" y="178">Aufnahme</text></svg><div class="gauge-callout goal-callout"><span>Ziel</span><b id="kcalGoalText">2.640 kcal</b></div><div class="gauge-callout burn-callout"><span>Verbrauch</span><b id="kcalBurnText">3.140 kcal</b></div></div><div class="gauge-legend"><div><i class="legend-intake"></i><span>Aufnahme<b id="gaugeIntakeLegend">0 kcal</b></span></div><div><i class="legend-to-goal"></i><span>Rest bis Ziel<b id="gaugeToGoalLegend">0 kcal</b></span></div><div><i class="legend-over-goal"></i><span>Zusatz bis Verbrauch<b id="gaugeOverGoalLegend">0 kcal</b></span></div><div><i class="legend-over-burn"></i><span>Über Verbrauch<b id="gaugeOverBurnLegend">0 kcal</b></span></div></div><div class="gauge-summary"><div><span>Ziel</span><b id="kcalGoalSummary">0 kcal</b></div><div><span>Verbrauch</span><b id="kcalBurnSummary">0 kcal</b></div></div><div class="kpi-foot" id="kcalRemaining">Noch 1.840 kcal bis zum Ziel</div></div>
   <div class="card"><div class="label">Kalorienbilanz</div><div class="value" id="balance">—</div><div class="sub">Aufnahme minus Verbrauch</div><div class="kpi-foot" id="balanceNote">Basisverbrauch plus Aktivität</div></div>
   <div class="card"><div class="label">Gewicht zuletzt</div><div class="value" id="weightNow">—</div><div class="sub" id="weightGoalText">Ziel: 90 kg</div><div class="kpi-foot" id="weightLastDate">Letzte Messung</div></div>
  </div>
@@ -393,9 +428,18 @@ function render(){
  const kcal=sum(ms,'kcal'),p=sum(ms,'protein'),c=sum(ms,'carbs'),f=sum(ms,'fat'),sugar=sum(ms,'sugar'),active=sum(acts,'activeKcal'),burn=n(db.goals.base)+active,kcalGoal=n(db.goals.kcal)+active;
  const kcalComplete=ms.every(x=>!isMissing(x.kcal)),pComplete=ms.every(x=>!isMissing(x.protein)),bal=kcalComplete?kcal-burn:null;
  dashboardDate.textContent=new Date(d+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});const dayInput=document.getElementById('dashboardDay');if(dayInput){dayInput.max=today();dayInput.value=d}['mealDate','activityDate'].forEach(id=>{const el=document.getElementById(id);if(el){el.max=today();if(!el.value||el.value!==d)el.value=d}});
- kcalIn.textContent=fmt(kcal)+(kcalComplete?'':'*');kcalGoalText.textContent='Ziel '+fmt(kcalGoal)+' kcal';kcalBurnText.textContent='Verbrauch '+fmt(burn)+' kcal';
-  const kcalScale=Math.max(kcalGoal,burn,kcal,1),goalPct=kcalGoal/kcalScale*100,burnPct=burn/kcalScale*100,intakePct=Math.min(kcal,kcalGoal)/kcalScale*100,toGoalPct=Math.max(0,kcalGoal-kcal)/kcalScale*100,overGoalPct=Math.max(0,Math.min(kcal,burn)-kcalGoal)/kcalScale*100,overBurnPct=Math.max(0,kcal-burn)/kcalScale*100,intakePos=Math.min(100,kcal/kcalScale*100);
-  kcalBar.style.width=intakePct+'%';kcalToGoalBar.style.left=Math.min(kcal,kcalGoal)/kcalScale*100+'%';kcalToGoalBar.style.width=toGoalPct+'%';kcalOverGoalBar.style.left=goalPct+'%';kcalOverGoalBar.style.width=overGoalPct+'%';kcalOverBurnBar.style.left=burnPct+'%';kcalOverBurnBar.style.width=overBurnPct+'%';kcalIntakeMarker.style.left=intakePos+'%';kcalGoalMarker.style.left=goalPct+'%';kcalBurnMarker.style.left=burnPct+'%';kcalIntakeLabel.textContent=fmt(kcal);kcalIntakeLabel.style.left=intakePos+'%';kcalGoalLabel.textContent=fmt(kcalGoal);kcalGoalLabel.style.left=goalPct+'%';kcalBurnLabel.textContent=fmt(burn);
+ gaugeKcal.textContent=fmt(kcal)+(kcalComplete?'':'*');
+  const gaugeScale=Math.max(kcalGoal,burn,kcal,1),gaugeLength=118*Math.PI*1.5,gaugePct=Math.min(1,kcal/gaugeScale),gaugeGoalPct=Math.min(1,kcalGoal/gaugeScale),gaugeBurnPct=Math.min(1,burn/gaugeScale);
+  const setGaugeSegment=(id,start,end)=>{const path=document.getElementById(id),from=Math.max(0,Math.min(1,start))*gaugeLength,to=Math.max(0,Math.min(1,end))*gaugeLength,len=Math.max(0,to-from);path.style.strokeDasharray=len+' '+(gaugeLength-len);path.style.strokeDashoffset=-from};
+  const gaugePoint=p=>{const a=(135-270*Math.max(0,Math.min(1,p)))*Math.PI/180;return{x:180+118*Math.cos(a),y:135+118*Math.sin(a)}};
+  setGaugeSegment('gaugeIntake',0,Math.min(kcal,kcalGoal)/gaugeScale);
+  setGaugeSegment('gaugeToGoal',Math.min(kcal,kcalGoal)/gaugeScale,gaugeGoalPct);
+  setGaugeSegment('gaugeOverGoal',gaugeGoalPct,Math.min(kcal,burn)/gaugeScale);
+  setGaugeSegment('gaugeOverBurn',gaugeBurnPct,kcal/gaugeScale);
+  const intakePoint=gaugePoint(gaugePct),goalPoint=gaugePoint(gaugeGoalPct),burnPoint=gaugePoint(gaugeBurnPct);
+  gaugeIntakeMarker.setAttribute('cx',intakePoint.x);gaugeIntakeMarker.setAttribute('cy',intakePoint.y);gaugeGoalMarker.setAttribute('cx',goalPoint.x);gaugeGoalMarker.setAttribute('cy',goalPoint.y);gaugeBurnMarker.setAttribute('cx',burnPoint.x);gaugeBurnMarker.setAttribute('cy',burnPoint.y);
+  gaugeIntakeLegend.textContent=fmt(kcal)+' kcal';gaugeToGoalLegend.textContent=fmt(Math.max(0,kcalGoal-kcal))+' kcal';gaugeOverGoalLegend.textContent=fmt(Math.max(0,burn-kcalGoal))+' kcal';gaugeOverBurnLegend.textContent=fmt(Math.max(0,kcal-burn))+' kcal';
+  kcalGoalSummary.textContent=fmt(kcalGoal)+' kcal';kcalBurnSummary.textContent=fmt(burn)+' kcal';kcalGoalText.textContent=fmt(kcalGoal)+' kcal';kcalBurnText.textContent=fmt(burn)+' kcal';
  kcalRemaining.textContent=!kcalComplete?'* Summe unvollständig – Kalorienangaben fehlen':kcal>=kcalGoal?fmt(kcal-kcalGoal)+' kcal über dem Tagesziel':fmt(kcalGoal-kcal)+' kcal bis zum Tagesziel';
  
  
