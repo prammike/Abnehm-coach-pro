@@ -1,11 +1,12 @@
-const CACHE_NAME = 'abnehm-coach-pro-v1-3-pwa-2';
+const CACHE_NAME = 'abnehm-coach-pro-v1-3-pwa-3';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/icon-maskable-512.png'
+  './icons/icon-maskable-512.png',
+  './icons/logo-app.svg'
 ];
 
 self.addEventListener('install', event => {
