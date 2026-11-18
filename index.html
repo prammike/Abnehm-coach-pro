@@ -91,15 +91,24 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
 .day-picker-label input{font-size:13px;padding:7px 8px}
 .goal-mark{position:relative;overflow:visible}
 .goal-mark:after{content:"";position:absolute;z-index:2;top:-3px;bottom:-3px;right:0;width:2px;border-radius:2px;background:var(--text);opacity:.9;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
- .kcal-target-row{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
- .kcal-range{position:relative;overflow:hidden;background:#293647}
+ .bar-scale-wrap{margin-top:10px}
+ .kcal-range{position:relative;overflow:hidden;background:#293647;margin-top:0}
  #kcalGoalBar .kcal-segment{position:absolute;top:0;bottom:0;height:auto;border-radius:0;width:0}
  #kcalGoalBar .kcal-intake{left:0;background:#35bd79}
  #kcalGoalBar .kcal-to-goal{background:#a9d9bd}
  #kcalGoalBar .kcal-over-goal{background:#e8b44c}
  #kcalGoalBar .kcal-over-burn{background:#e45b5b}
- #kcalGoalBar .kcal-goal-marker,#kcalGoalBar .kcal-burn-marker{position:absolute;top:-2px;bottom:-2px;width:2px;z-index:3;background:var(--text);opacity:.9}
- #kcalGoalBar .kcal-burn-marker{background:var(--muted);opacity:.75}
+ #kcalGoalBar .kcal-intake-marker,#kcalGoalBar .kcal-goal-marker,#kcalGoalBar .kcal-burn-marker{position:absolute;top:-3px;bottom:-3px;width:2px;z-index:3;background:var(--text);opacity:.95}
+ #kcalGoalBar .kcal-intake-marker{background:#fff;opacity:.9}
+ #kcalGoalBar .kcal-burn-marker{background:var(--muted);opacity:.85}
+ .kcal-axis{height:20px;position:relative;margin-top:5px;color:var(--muted);font-size:10px;font-weight:600;font-variant-numeric:tabular-nums}
+ .kcal-axis span{position:absolute;top:0;white-space:nowrap;transform:translateX(-50%)}
+ .kcal-axis .axis-zero{left:0;transform:none}
+ .kcal-axis .axis-intake{color:var(--text)}
+ .kcal-axis .axis-burn{right:0;left:auto;transform:none}
+ .kcal-target-row{display:flex;justify-content:space-between;gap:6px;margin-top:2px}
+ .kcal-chip{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 7px;white-space:nowrap}
+ .kcal-goal-chip{color:var(--green);border-color:var(--green)}
 .bar.status-ok span{background:#35bd79}
 .bar.status-over span{background:#e45b5b}
 .bar.status-progress span{background:#e45b5b}
@@ -171,7 +180,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
 <section id="dashboard" class="panel active">
  <div class="dashboard-meta day-select-row"><div><span class="pill" id="entryCount">0 Einträge</span><span id="dashboardDate" class="dashboard-date-label"></span></div><label class="day-picker-label">Tag auswählen<input id="dashboardDay" type="date" onchange="selectDay(this.value)" aria-label="Tag für Tagesübersicht auswählen"></label></div>
  <div class="grid dashboard-kpis">
-  <div class="card kpi-primary"><div class="label">Kalorien</div><div class="value" id="kcalIn">0</div><div class="sub kcal-target-row"><span id="kcalGoalText">Ziel 1.840 kcal</span><span id="kcalBurnText">Verbrauch 2.340 kcal</span></div><div class="bar kcal-range" id="kcalGoalBar"><span class="kcal-segment kcal-intake" id="kcalBar"></span><span class="kcal-segment kcal-to-goal" id="kcalToGoalBar"></span><span class="kcal-segment kcal-over-goal" id="kcalOverGoalBar"></span><span class="kcal-segment kcal-over-burn" id="kcalOverBurnBar"></span><i class="kcal-goal-marker" id="kcalGoalMarker"></i><i class="kcal-burn-marker" id="kcalBurnMarker"></i></div><div class="kpi-foot" id="kcalRemaining">Noch 1.840 kcal bis zum Ziel</div></div>
+  <div class="card kpi-primary"><div class="label">Kalorien</div><div class="value" id="kcalIn">0</div><div class="bar-scale-wrap"><div class="bar kcal-range" id="kcalGoalBar"><span class="kcal-segment kcal-intake" id="kcalBar"></span><span class="kcal-segment kcal-to-goal" id="kcalToGoalBar"></span><span class="kcal-segment kcal-over-goal" id="kcalOverGoalBar"></span><span class="kcal-segment kcal-over-burn" id="kcalOverBurnBar"></span><i class="kcal-intake-marker" id="kcalIntakeMarker"></i><i class="kcal-goal-marker" id="kcalGoalMarker"></i><i class="kcal-burn-marker" id="kcalBurnMarker"></i></div><div class="kcal-axis"><span class="axis-zero">0</span><span class="axis-intake" id="kcalIntakeLabel">1.932</span><span class="axis-goal" id="kcalGoalLabel">2.640</span><span class="axis-burn" id="kcalBurnLabel">3.140</span></div></div><div class="kcal-target-row"><span class="kcal-chip kcal-goal-chip" id="kcalGoalText">Ziel 1.840 kcal</span><span class="kcal-chip" id="kcalBurnText">Verbrauch 2.340 kcal</span></div><div class="kpi-foot" id="kcalRemaining">Noch 1.840 kcal bis zum Ziel</div></div>
   <div class="card protein-kpi"><div class="label">Eiweiß</div><div class="value" id="proteinIn">0 g</div><div class="sub" id="proteinGoalText">von 170 g</div><div class="bar goal-mark" id="proteinKpiGoalBar"><span id="proteinKpiBar"></span></div><div class="kpi-foot" id="proteinRemaining">Noch 170 g bis zum Ziel</div></div>
   <div class="card"><div class="label">Kalorienbilanz</div><div class="value" id="balance">—</div><div class="sub">Aufnahme minus Verbrauch</div><div class="kpi-foot" id="balanceNote">Basisverbrauch plus Aktivität</div></div>
   <div class="card"><div class="label">Gewicht zuletzt</div><div class="value" id="weightNow">—</div><div class="sub" id="weightGoalText">Ziel: 90 kg</div><div class="kpi-foot" id="weightLastDate">Letzte Messung</div></div>
@@ -380,8 +389,8 @@ function render(){
  const kcalComplete=ms.every(x=>!isMissing(x.kcal)),pComplete=ms.every(x=>!isMissing(x.protein)),bal=kcalComplete?kcal-burn:null;
  dashboardDate.textContent=new Date(d+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});const dayInput=document.getElementById('dashboardDay');if(dayInput){dayInput.max=today();dayInput.value=d}['mealDate','activityDate'].forEach(id=>{const el=document.getElementById(id);if(el){el.max=today();if(!el.value||el.value!==d)el.value=d}});
  kcalIn.textContent=fmt(kcal)+(kcalComplete?'':'*');kcalGoalText.textContent='Ziel '+fmt(kcalGoal)+' kcal';kcalBurnText.textContent='Verbrauch '+fmt(burn)+' kcal';
-  const kcalScale=Math.max(kcalGoal,burn,kcal,1),goalPct=kcalGoal/kcalScale*100,burnPct=burn/kcalScale*100,intakePct=Math.min(kcal,kcalGoal)/kcalScale*100,toGoalPct=Math.max(0,kcalGoal-kcal)/kcalScale*100,overGoalPct=Math.max(0,Math.min(kcal,burn)-kcalGoal)/kcalScale*100,overBurnPct=Math.max(0,kcal-burn)/kcalScale*100;
-  kcalBar.style.width=intakePct+'%';kcalToGoalBar.style.left=Math.min(kcal,kcalGoal)/kcalScale*100+'%';kcalToGoalBar.style.width=toGoalPct+'%';kcalOverGoalBar.style.left=goalPct+'%';kcalOverGoalBar.style.width=overGoalPct+'%';kcalOverBurnBar.style.left=burnPct+'%';kcalOverBurnBar.style.width=overBurnPct+'%';kcalGoalMarker.style.left=goalPct+'%';kcalBurnMarker.style.left=burnPct+'%';
+  const kcalScale=Math.max(kcalGoal,burn,kcal,1),goalPct=kcalGoal/kcalScale*100,burnPct=burn/kcalScale*100,intakePct=Math.min(kcal,kcalGoal)/kcalScale*100,toGoalPct=Math.max(0,kcalGoal-kcal)/kcalScale*100,overGoalPct=Math.max(0,Math.min(kcal,burn)-kcalGoal)/kcalScale*100,overBurnPct=Math.max(0,kcal-burn)/kcalScale*100,intakePos=Math.min(100,kcal/kcalScale*100);
+  kcalBar.style.width=intakePct+'%';kcalToGoalBar.style.left=Math.min(kcal,kcalGoal)/kcalScale*100+'%';kcalToGoalBar.style.width=toGoalPct+'%';kcalOverGoalBar.style.left=goalPct+'%';kcalOverGoalBar.style.width=overGoalPct+'%';kcalOverBurnBar.style.left=burnPct+'%';kcalOverBurnBar.style.width=overBurnPct+'%';kcalIntakeMarker.style.left=intakePos+'%';kcalGoalMarker.style.left=goalPct+'%';kcalBurnMarker.style.left=burnPct+'%';kcalIntakeLabel.textContent=fmt(kcal);kcalIntakeLabel.style.left=intakePos+'%';kcalGoalLabel.textContent=fmt(kcalGoal);kcalGoalLabel.style.left=goalPct+'%';kcalBurnLabel.textContent=fmt(burn);
  kcalRemaining.textContent=!kcalComplete?'* Summe unvollständig – Kalorienangaben fehlen':kcal>=kcalGoal?fmt(kcal-kcalGoal)+' kcal über dem Tagesziel':fmt(kcalGoal-kcal)+' kcal bis zum Tagesziel';
  proteinIn.textContent=fmt(p)+(pComplete?' g':' g*');proteinGoalText.textContent='von '+fmt(db.goals.protein)+' g';proteinKpiBar.style.width=Math.min(100,p/db.goals.protein*100)+'%';
  proteinRemaining.textContent=!pComplete?'* Eiweißangaben teilweise nicht vorhanden':p>=db.goals.protein?fmt(p-db.goals.protein)+' g über dem Ziel':fmt(db.goals.protein-p)+' g bis zum Ziel';
