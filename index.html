@@ -397,8 +397,8 @@ function render(){
   const kcalScale=Math.max(kcalGoal,burn,kcal,1),goalPct=kcalGoal/kcalScale*100,burnPct=burn/kcalScale*100,intakePct=Math.min(kcal,kcalGoal)/kcalScale*100,toGoalPct=Math.max(0,kcalGoal-kcal)/kcalScale*100,overGoalPct=Math.max(0,Math.min(kcal,burn)-kcalGoal)/kcalScale*100,overBurnPct=Math.max(0,kcal-burn)/kcalScale*100,intakePos=Math.min(100,kcal/kcalScale*100);
   kcalBar.style.width=intakePct+'%';kcalToGoalBar.style.left=Math.min(kcal,kcalGoal)/kcalScale*100+'%';kcalToGoalBar.style.width=toGoalPct+'%';kcalOverGoalBar.style.left=goalPct+'%';kcalOverGoalBar.style.width=overGoalPct+'%';kcalOverBurnBar.style.left=burnPct+'%';kcalOverBurnBar.style.width=overBurnPct+'%';kcalIntakeMarker.style.left=intakePos+'%';kcalGoalMarker.style.left=goalPct+'%';kcalBurnMarker.style.left=burnPct+'%';kcalIntakeLabel.textContent=fmt(kcal);kcalIntakeLabel.style.left=intakePos+'%';kcalGoalLabel.textContent=fmt(kcalGoal);kcalGoalLabel.style.left=goalPct+'%';kcalBurnLabel.textContent=fmt(burn);
  kcalRemaining.textContent=!kcalComplete?'* Summe unvollständig – Kalorienangaben fehlen':kcal>=kcalGoal?fmt(kcal-kcalGoal)+' kcal über dem Tagesziel':fmt(kcalGoal-kcal)+' kcal bis zum Tagesziel';
- proteinIn.textContent=fmt(p)+(pComplete?' g':' g*');proteinGoalText.textContent='von '+fmt(db.goals.protein)+' g';proteinKpiBar.style.width=Math.min(100,p/db.goals.protein*100)+'%';
- proteinRemaining.textContent=!pComplete?'* Eiweißangaben teilweise nicht vorhanden':p>=db.goals.protein?fmt(p-db.goals.protein)+' g über dem Ziel':fmt(db.goals.protein-p)+' g bis zum Ziel';
+ 
+ 
  balance.textContent=bal===null?'—':(bal>0?'+':'')+fmt(bal);balance.style.color=bal===null?'var(--muted)':bal>0?'var(--orange)':'var(--green)';balanceNote.textContent=bal===null?'Nicht vollständig berechenbar':'Verbrauch '+fmt(burn)+' kcal';
  const latest=db.weights.slice().filter(w=>!isMissing(w.kg)).sort((a,b)=>b.date.localeCompare(a.date))[0];
  weightNow.textContent=latest?fmt(latest.kg)+' kg':'—';weightGoalText.textContent='Ziel: '+fmt(db.goals.targetWeight)+' kg';weightLastDate.textContent=latest?'Stand '+new Date(latest.date+'T12:00:00').toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}):'Noch keine Messung';
@@ -410,7 +410,7 @@ function render(){
  sugarText.textContent=sugarKnown.length?fmt(sugar)+' / '+fmt(sugarGoal)+' g'+(sugarKnown.length<ms.length?' · teilweise':''):'— / '+fmt(sugarGoal)+' g';
  sugarBar.style.width=Math.min(100,sugar/sugarGoal*100)+'%';
  setBarStatus('kcalGoalBar',kcal<=kcalGoal?'ok':'over');
- setBarStatus('proteinKpiGoalBar',p>=db.goals.protein?'complete':'progress');
+ 
  setBarStatus('proteinMacroGoalBar',p>=db.goals.protein?'complete':'progress');
  setBarStatus('carbsGoalBar',c<=db.goals.carbs?'ok':'over');
  setBarStatus('fatGoalBar',f<=db.goals.fat?'ok':'over');
