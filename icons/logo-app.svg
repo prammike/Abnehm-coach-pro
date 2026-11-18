@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="mint" x1="0" y1="0" x2="0.8" y2="1"><stop stop-color="#62f3a0"/><stop offset="1" stop-color="#00d58d"/></linearGradient>
+ <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#76f6a4"/><stop offset="1" stop-color="#19d99a"/></linearGradient>
+</defs>
+<rect width="512" height="512" rx="82" fill="#031426"/>
+<path d="M256 159 C238 119 211 103 194 101 C181 99 174 108 177 121 C181 139 208 148 224 163 C239 177 244 192 244 207" fill="url(#mint)"/>
+<path d="M256 206 C267 131 324 65 412 46 C408 130 379 181 326 203 C302 213 278 215 256 206Z" fill="url(#leaf)"/>
+<path d="M274 189 C301 146 335 116 365 95" fill="none" stroke="#031426" stroke-width="7" stroke-linecap="round"/>
+<path d="M256 207 C218 178 150 181 103 212 C49 249 35 319 59 377 C79 426 112 459 151 482" fill="none" stroke="url(#mint)" stroke-width="28" stroke-linecap="round"/>
+<path d="M256 207 C294 179 362 181 409 211 C463 246 479 316 456 375 C439 419 415 450 385 471" fill="none" stroke="url(#mint)" stroke-width="28" stroke-linecap="round"/>
+<path d="M151 482 C203 490 292 485 365 463 C415 448 447 419 465 382" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round"/>
+<rect x="142" y="239" width="61" height="170" rx="9" fill="url(#mint)"/>
+<rect x="220" y="285" width="61" height="124" rx="9" fill="url(#mint)"/>
+<rect x="298" y="326" width="61" height="83" rx="9" fill="url(#mint)"/>
+</svg>
