@@ -644,14 +644,28 @@ async function applyDailyPayload(x,{source='manual',confirmImport=false,download
  for(const [key,label] of arrays)incoming[key].forEach(v=>{validDayEntry(v,label,importDay);if(incomingIds.has(v.id))throw Error('Die ID '+v.id+' kommt mehrfach in der Importdatei vor.');incomingIds.add(v.id)});
  const total=incoming.meals.length+incoming.activities.length+incoming.weights.length;
  if(!total)throw Error('Die Datei enthält keine Einträge für '+importDay+'.');
- const currentIds=new Set([...db.meals,...db.activities,...db.weights].map(v=>v.id));
- const counts={meals:0,activities:0,weights:0,skipped:0};
+ const existing=new Map();
+ for(const [key] of arrays)db[key].forEach((item,index)=>{if(item&&item.id)existing.set(item.id,{key,index,item})});
+ const counts={added:0,updated:0,unchanged:0,skipped:0,meals:0,activities:0,weights:0};
  const next={...db,goals:structuredClone(db.goals),meals:db.meals.slice(),activities:db.activities.slice(),weights:db.weights.slice()};
- for(const [key] of arrays)for(const item of incoming[key]){if(currentIds.has(item.id)){counts.skipped++;continue}next[key].push(structuredClone(item));currentIds.add(item.id);counts[key]++}
- const newCount=counts.meals+counts.activities+counts.weights;
- if(!newCount)return {imported:0,skipped:counts.skipped,counts,day:importDay};
+ for(const [key] of arrays)for(const item of incoming[key]){
+  const found=existing.get(item.id);
+  if(found){
+   if(found.key!==key)throw Error('Die ID '+item.id+' ist in der App bereits als anderer Eintragstyp gespeichert. Bitte ID prüfen.');
+   if(JSON.stringify(found.item)!==JSON.stringify(item)){
+    next[key][found.index]=structuredClone(item);
+    counts.updated++;counts[key]++;
+   }else counts.unchanged++;
+  }else{
+   next[key].push(structuredClone(item));
+   existing.set(item.id,{key,index:next[key].length-1,item});
+   counts.added++;counts[key]++;
+  }
+ }
+ const changed=counts.added+counts.updated;
+ if(!changed)return {imported:0,added:0,updated:0,unchanged:counts.unchanged,skipped:counts.unchanged,counts,day:importDay};
  const dateLabel=new Date(importDay+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
- if(confirmImport&&!confirm('Importdatum: '+dateLabel+'\n\n'+incoming.meals.length+' Mahlzeiten, '+incoming.activities.length+' Aktivitäten und '+incoming.weights.length+' Gewichtsmessungen in der Datei.\n\nNeue IDs werden ergänzt; vorhandene IDs übersprungen.\n\nVorher wird eine lokale und – falls verbunden – eine Dropbox-Vollsicherung erstellt.\n\nDiesen Tag jetzt sicher ergänzen?'))return {cancelled:true};
+ if(confirmImport&&!confirm('Importdatum: '+dateLabel+'\n\n'+counts.added+' neue Einträge werden ergänzt.\n'+counts.updated+' vorhandene Einträge mit gleicher ID werden aktualisiert.\n'+counts.unchanged+' unveränderte Einträge bleiben unberührt.\n\nVorher wird eine lokale und – falls verbunden – eine Dropbox-Vollsicherung erstellt.\n\nÄnderungen jetzt übernehmen?'))return {cancelled:true};
  const backup=backupPayload();backup.backup_reason='Automatische Sicherung vor Tagesimport für '+importDay;
  await writeLocalBackup(backup);
  if(dropboxIsConfiguredAndConnected()){
@@ -662,7 +676,7 @@ async function applyDailyPayload(x,{source='manual',confirmImport=false,download
  }
  if(downloadLocalBackup)downloadJson(backup,'abnehm-coach-vollsicherung-vor-tagesimport-'+importDay+'-'+today()+'.json');
  await writeLocal(next);db=next;render();
- return {imported:newCount,skipped:counts.skipped,counts,day:importDay};
+ return {imported:changed,added:counts.added,updated:counts.updated,unchanged:counts.unchanged,skipped:counts.unchanged,counts,day:importDay};
 }
 function importData(e){let file=e.target.files[0];if(!file)return;let r=new FileReader();r.onload=async()=>{try{let x=JSON.parse(r.result);if(!x||!Array.isArray(x.meals)||!Array.isArray(x.activities)||!Array.isArray(x.weights)||!x.goals||typeof x.goals!=='object')throw Error('Datenstruktur unvollständig oder ungültig');if(x.schema_version!==undefined&&Number(x.schema_version)>1)throw Error('Diese Sicherung stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.');for(const [arr,name] of [[x.meals,'Mahlzeiten'],[x.activities,'Aktivitäten'],[x.weights,'Gewichtsmessungen']]){if(!arr.every(v=>v&&typeof v==='object'&&typeof v.id==='string'&&typeof v.date==='string'))throw Error(name+' enthalten ungültige Einträge.')}if(!confirm('Import ersetzt deine aktuellen App-Daten vollständig. Vorhandene Daten vorher exportieren?'))return;const next={goals:{...structuredClone(defaults.goals),...x.goals},meals:x.meals,activities:x.activities,weights:x.weights};await writeLocal(next);db=next;render();alert('JSON-Sicherung erfolgreich importiert.')}catch(err){alert('Import fehlgeschlagen: '+err.message)}finally{e.target.value=''}};r.readAsText(file)}
 
@@ -747,9 +761,9 @@ async function syncDropboxToday({manual=false}={}){
   const raw=await downloadDropboxFile(entry.path_lower||entry.path),payload=JSON.parse(raw);
   const result=await applyDailyPayload(payload,{source:'dropbox'});
   if(result.cancelled)return;
-  if(result.imported){setDropboxStatus('connected',result.imported+' neue Einträge importiert, '+result.skipped+' doppelte IDs übersprungen. Automatische Sicherung wurde überschrieben.')}
-  else setDropboxStatus('connected','Tagesdatei gefunden; alle '+result.skipped+' Einträge waren bereits importiert. Keine Änderung nötig.');
-  if(manual)alert(result.imported?result.imported+' neue Einträge importiert.':'Keine neuen Einträge – alle IDs waren bereits vorhanden.');
+  if(result.imported){setDropboxStatus('connected',result.added+' neue Einträge ergänzt, '+result.updated+' vorhandene Einträge aktualisiert, '+result.unchanged+' unverändert. Automatische Sicherung wurde überschrieben.')}
+  else setDropboxStatus('connected','Tagesdatei gefunden; alle '+result.unchanged+' Einträge waren bereits aktuell. Keine Änderung nötig.');
+  if(manual)alert(result.imported?result.added+' neue Einträge ergänzt und '+result.updated+' vorhandene Einträge aktualisiert.':'Keine Änderungen – alle Einträge waren bereits aktuell.');
  }catch(e){setDropboxStatus('error','Dropbox-Prüfung fehlgeschlagen: '+e.message+' Deine lokalen Daten sind unverändert.');if(manual)alert('Dropbox-Import nicht durchgeführt: '+e.message)}
  finally{dropboxSyncRunning=false}
 }
