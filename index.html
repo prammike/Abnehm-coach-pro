@@ -485,9 +485,21 @@ function render(){
 
  proteinBar.style.width=Math.min(100,p/db.goals.protein*100)+'%';carbsBar.style.width=Math.min(100,c/db.goals.carbs*100)+'%';fatBar.style.width=Math.min(100,f/db.goals.fat*100)+'%';
  entryCount.textContent=(ms.length+acts.length)+' Einträge';const dayTitle=document.getElementById('selectedDayEntriesTitle');if(dayTitle)dayTitle.textContent='Einträge am '+new Date(d+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'2-digit'});
- const groups=['Frühstück','Mittagessen','Abendessen','Snack','Getränke'];
+ const canonicalMealType=value=>{
+  const raw=String(value||'Snack').trim();
+  const key=raw.toLocaleLowerCase('de-DE');
+  if(['getränk','getränke','trinken','getraenk','getraenke'].includes(key))return 'Getränke';
+  if(['frühstück','fruehstueck'].includes(key))return 'Frühstück';
+  if(['mittag','mittagessen'].includes(key))return 'Mittagessen';
+  if(['abendessen','abendmahlzeit'].includes(key))return 'Abendessen';
+  if(['snack','zwischenmahlzeit'].includes(key))return 'Snack';
+  return raw;
+ };
+ const standardGroups=['Frühstück','Mittagessen','Abendessen','Snack','Getränke'];
+ const otherGroups=[...new Set(ms.map(x=>canonicalMealType(x.type)))].filter(type=>!standardGroups.includes(type));
+ const groups=[...standardGroups,...otherGroups];
  const mealHtml=groups.map(type=>{
-  const group=ms.filter(x=>(x.type||'Snack')===type);if(!group.length)return '';
+  const group=ms.filter(x=>canonicalMealType(x.type)===type);if(!group.length)return '';
   const total=sum(group,'kcal'),missing=group.some(x=>isMissing(x.kcal));
   return `<details class="meal-group"><summary><span>${type}</span><span>${group.length} · ${fmt(total)}${missing?'*':''} kcal</span></summary><div class="meal-group-content">${group.slice().sort((a,b)=>(mealTime(a)||'').localeCompare(mealTime(b)||'')).map(x=>`<div class="meal-card"><div class="row"><span class="meal-title">${esc(x.name)}</span><span class="meal-time">${mealTime(x)}</span></div><small>${showVal(x.kcal,' kcal')} · Eiweiß ${showVal(x.protein,' g')} · KH ${showVal(x.carbs,' g')} · Fett ${showVal(x.fat,' g')} · Zucker ${showVal(x.sugar,' g')}</small><div class="quality-line">${qualityFlags(x,['kcal','protein','carbs','fat','sugar'])}</div></div>`).join('')}</div></details>`;
  }).join('');
