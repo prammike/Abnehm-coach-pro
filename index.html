@@ -264,7 +264,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
  <div class="notice">Verbrauch = Basis-Gesamtverbrauch plus zusätzliche aktive Trainingskalorien. Fehlende Angaben werden sichtbar markiert und nicht als bestätigte Nullwerte ausgegeben.</div>
  <div style="margin-top:12px"><button class="secondary" onclick="showTab(&quot;settings&quot;,null)">⚙ Einstellungen &amp; Datensicherung</button></div>
 </section>
-<section id="food" class="panel">
+<section id="calories" class="panel">
  <div class="card">
   <h2>🍽️ Mahlzeit erfassen</h2>
   <p class="hint">Trage eine Mahlzeit zunächst mit Beschreibung und geschätzten Nährwerten ein. Die direkte GPT-Fotoanalyse wird nach Einrichtung des sicheren Backend-Dienstes ergänzt.</p>
@@ -280,8 +280,8 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
   <button style="width:100%;margin-top:8px" onclick="addMeal()">Mahlzeit speichern</button>
  </div>
  <div class="card"><div class="row"><h2>Mahlzeiten des ausgewählten Tages</h2><span class="sub">Nach Tagesabschnitt gruppiert</span></div><div id="mealList" class="empty">Noch keine Mahlzeiten.</div></div>
-</section>
-<section id="activity" class="panel">
+
+
  <div class="card">
   <h2>🏃 Aktivität erfassen</h2>
   <label>Datum</label><input id="activityDate" type="date" onchange="selectDay(this.value)"><label>Aktivität</label><input id="activityName" placeholder="z. B. Krafttraining, Radfahren, Spaziergang">
@@ -295,6 +295,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
   <button style="width:100%;margin-top:8px" onclick="addActivity()">Aktivität speichern</button>
  </div>
  <div class="card"><h2>Aktivitäten des ausgewählten Tages</h2><div id="activityList" class="empty">Noch keine Aktivitäten.</div></div>
+
 </section>
 <section id="history" class="panel">
  <div id="historyCount" hidden style="display:none!important"></div><div id="historyDays" hidden style="display:none!important"></div><div id="selectedDayTitle" hidden></div><div id="daySummary" hidden></div><div id="dayEntries" hidden></div>
@@ -371,12 +372,11 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
  <div class="card"><h2>KI-Anbindung</h2><div class="notice">GPT ist noch nicht verbunden. Für Fotoanalyse und automatische Beschreibungsauswertung richten wir als nächsten Schritt einen sicheren Backend-Endpunkt ein. Bitte niemals einen OpenAI-API-Schlüssel in dieses Formular oder direkt in die App eintragen.</div></div>
 </section>
 </main>
-<nav class="tabs" style="grid-template-columns:repeat(5,1fr)">
+<nav class="tabs" style="grid-template-columns:repeat(4,1fr)">
  <button class="active" data-tab="dashboard" onclick="showTab('dashboard',this)"><span>⌂</span>Übersicht</button>
- <button data-tab="food" onclick="showTab('food',this)"><span>🍽</span>Essen</button>
- <button data-tab="activity" onclick="showTab('activity',this)"><span>🏃</span>Aktivität</button>
  <button data-tab="history" onclick="showTab('history',this)"><span>📊</span>Verlauf</button>
  <button data-tab="weight" onclick="showTab('weight',this)"><span>⚖</span>Gewicht</button>
+ <button data-tab="calories" onclick="showTab('calories',this)"><span>🍽</span>Kalorien erfassen</button>
 </nav>
 <script>
 const KEY='abnehmCoachPro_v01';
