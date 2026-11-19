@@ -297,6 +297,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
  <div class="card"><h2>Aktivitäten des ausgewählten Tages</h2><div id="activityList" class="empty">Noch keine Aktivitäten.</div></div>
 </section>
 <section id="history" class="panel">
+ <div id="historyCount" hidden></div><div id="historyDays" hidden></div>
  <div class="card monthly-calendar-card">
   <div class="row calendar-heading"><h2>Monatsübersicht</h2><div class="calendar-nav"><button class="secondary" onclick="shiftCalendarMonth(-1)" aria-label="Vorheriger Monat">‹</button><strong id="calendarMonthLabel"></strong><button class="secondary" onclick="shiftCalendarMonth(1)" aria-label="Nächster Monat">›</button></div></div>
   <div class="calendar-legend"><span><i class="calendar-dot deficit"></i>Defizit</span><span><i class="calendar-dot surplus"></i>Überschuss</span><span><i class="calendar-dot no-data"></i>Keine Daten</span></div>
