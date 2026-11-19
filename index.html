@@ -297,7 +297,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
  <div class="card"><h2>Aktivitäten des ausgewählten Tages</h2><div id="activityList" class="empty">Noch keine Aktivitäten.</div></div>
 </section>
 <section id="history" class="panel">
- <div id="historyCount" hidden></div><div id="historyDays" hidden></div>
+ <div id="historyCount" hidden style="display:none!important"></div><div id="historyDays" hidden style="display:none!important"></div><div id="selectedDayTitle" hidden></div><div id="daySummary" hidden></div><div id="dayEntries" hidden></div>
  <div class="card monthly-calendar-card">
   <div class="row calendar-heading"><h2>Monatsübersicht</h2><div class="calendar-nav"><button class="secondary" onclick="shiftCalendarMonth(-1)" aria-label="Vorheriger Monat">‹</button><strong id="calendarMonthLabel"></strong><button class="secondary" onclick="shiftCalendarMonth(1)" aria-label="Nächster Monat">›</button></div></div>
   <div class="calendar-legend"><span><i class="calendar-dot deficit"></i>Defizit</span><span><i class="calendar-dot surplus"></i>Überschuss</span><span><i class="calendar-dot no-data"></i>Keine Daten</span></div>
@@ -317,7 +317,7 @@ button,.button{border:0;border-radius:12px;padding:12px 14px;background:var(--gr
  </div>
  <div class="card"><h2>📅 Wochen- und Monatsübersicht</h2><div id="weeklySummary" class="empty">Noch keine Daten.</div><div id="monthlySummary" class="empty"></div></div>
  <div class="card"><h2>⚖️ Gewichtsverlauf</h2><div id="weightTrend" class="empty">Noch keine Gewichtsmessungen.</div></div>
- <div class="card"><h2 id="selectedDayTitle">Tagesdetails</h2><div id="daySummary" class="empty">Wähle einen Tag aus dem Verlauf.</div><div id="dayEntries"></div></div>
+ 
 </section>
 <section id="weight" class="panel">
  <div class="card">
@@ -562,7 +562,7 @@ function renderMonthCalendar(allRows){
  monthCalendarSummary.innerHTML=`<div class="trend-grid"><div class="trend-tile"><span>Defizit-Tage</span><b style="color:#35bd79">${deficits}</b></div><div class="trend-tile"><span>Überschuss-Tage</span><b style="color:#e45b5b">${surpluses}</b></div><div class="trend-tile"><span>Ø Bilanz</span><b>${avg===null?'—':(avg>0?'+':'')+fmt(avg)+' kcal'}</b><small>${known} Tage mit berechenbarer Bilanz${unknown?' · '+unknown+' unvollständig':''}</small></div></div><p class="hint">Tippe auf einen Tag, um dessen Tagesübersicht zu öffnen. „—“ bedeutet: Einträge vorhanden, aber Bilanz unvollständig.</p>`;
 }
 
-function renderHistory(){const all=dailyRows();calendarMonth=(selectedHistoryDay||selectedDay||today()).slice(0,7);renderMonthCalendar(all);const rows=historyRange==='all'?all:all.slice(-Number(historyRange));historyCount.textContent=rows.length+' Tage';if(!selectedHistoryDay||!rows.some(x=>x.date===selectedHistoryDay))selectedHistoryDay=rows.length?rows[rows.length-1].date:null;historyDays.className=rows.length?'day-list':'';historyDays.innerHTML=rows.length?rows.slice().reverse().map(x=>`<button class="day-chip ${x.date===selectedHistoryDay?'selected':''}" onclick="selectHistoryDay('${x.date}')"><strong>${new Date(x.date+'T12:00:00').toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}</strong><small>${fmt(x.intake)} kcal · Bilanz ${x.balance>0?'+':''}${fmt(x.balance)}</small></button>`).join(''):'<div class="empty">Noch keine Tage erfasst.</div>';renderSelectedDay(rows);renderCharts(rows);renderWeeklySummary(all);renderWeightTrend()}
+function renderHistory(){const all=dailyRows();calendarMonth=(selectedHistoryDay||selectedDay||today()).slice(0,7);renderMonthCalendar(all);const rows=historyRange==='all'?all:all.slice(-Number(historyRange));historyCount.textContent=rows.length+' Tage';if(!selectedHistoryDay||!rows.some(x=>x.date===selectedHistoryDay))selectedHistoryDay=rows.length?rows[rows.length-1].date:null;historyDays.className=rows.length?'day-list':'';historyDays.innerHTML=rows.length?rows.slice().reverse().map(x=>`<button class="day-chip ${x.date===selectedHistoryDay?'selected':''}" onclick="selectHistoryDay('${x.date}')"><strong>${new Date(x.date+'T12:00:00').toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}</strong><small>${fmt(x.intake)} kcal · Bilanz ${x.balance>0?'+':''}${fmt(x.balance)}</small></button>`).join(''):'<div class="empty">Noch keine Tage erfasst.</div>';renderCharts(rows);renderWeeklySummary(all);renderWeightTrend()}
 function selectHistoryDay(date){selectedHistoryDay=date;renderHistory()}
 function renderSelectedDay(rows){
  const x=rows.find(v=>v.date===selectedHistoryDay);
