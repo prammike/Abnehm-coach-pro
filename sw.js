@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abnehm-coach-pro-v1-3-pwa-11';
+const CACHE_NAME = 'abnehm-coach-pro-v1-3-pwa-12';
 const APP_SHELL = [
   './',
   './index.html',
